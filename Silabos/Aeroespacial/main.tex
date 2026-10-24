@@ -1,0 +1,197 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage{fontspec}
+\setmainfont{Liberation Sans}
+\usepackage[spanish,es-noshorthands]{babel}
+\usepackage[margin=1.8cm]{geometry}
+\usepackage{tabularx}
+\usepackage{array}
+\usepackage[table]{xcolor}
+
+\pagestyle{empty}
+\setlength{\parindent}{0pt}
+
+\definecolor{azulclaro}{HTML}{DCE6F1}
+
+% Columna centrada de ancho fijo para el pre-requisito
+\newcolumntype{P}{>{\centering\arraybackslash}p{3.0cm}}
+\newcolumntype{N}{>{\raggedright\arraybackslash}X}
+\setlength{\tabcolsep}{3pt}
+\newcolumntype{C}{>{\centering\arraybackslash}X}
+
+% Tabla por ciclo: \ciclo{TÍTULO}{filas}
+\newcommand{\ciclo}[2]{%
+  \begin{center}\normalsize\renewcommand{\arraystretch}{1.2}%
+  \begin{tabularx}{\textwidth}{|c|N|c|c|c|c|c|c|P|}
+  \hline
+  \multicolumn{9}{|c|}{\cellcolor{azulclaro}\textbf{\large #1}}\\
+  \hline
+  \textbf{CÓDIGO} & \multicolumn{1}{c|}{\textbf{NOMBRE DEL CURSO}} & \textbf{EV} & \textbf{HT} & \textbf{HP} & \textbf{HL} & \textbf{TH} & \textbf{CR} & \textbf{PRE - REQUISITO}\\
+  \hline
+  #2
+  \end{tabularx}\end{center}}
+
+\newcommand{\totalcreditos}[1]{\vspace{-0.4em}\hfill\textbf{\footnotesize Total de créditos:\quad #1}\par\vspace{0.9cm}}
+
+\begin{document}
+
+%==================== PRIMER CICLO ====================
+\ciclo{PRIMER CICLO}{
+BFI01 & FÍSICA I & F & 4 & 2 & 0 & 6 & 5 & NINGUNO\\\hline
+BMA01 & CALCULO DIFERENCIAL & G & 4 & 2 & 0 & 6 & 5 & NINGUNO\\\hline
+BQU01 & QUÍMICA I & F & 4 & 2 & 0 & 6 & 5 & NINGUNO\\\hline
+BRC01 & REDACCIÓN Y COMUNICACIÓN & D & 1 & 2 & 0 & 3 & 2 & NINGUNO\\\hline
+IA001 & INTRODUCCIÓN A LA INGENIERIA AEROESPACIAL & D & 0 & 2 & 0 & 2 & 1 & NINGUNO\\\hline
+MC501 & DIBUJO TÉCNICO & D & 0 & 2 & 0 & 2 & 1 & NINGUNO\\\hline
+MC502 & GEOMETRÍA DESCRIPTIVA & H & 2 & 2 & 0 & 4 & 3 & NINGUNO\\\hline
+}
+\totalcreditos{22}
+
+%==================== SEGUNDO CICLO ====================
+\ciclo{SEGUNDO CICLO}{
+BEG01 & ECONOMÍA GENERAL & F & 2 & 2 & 0 & 4 & 3 & NINGUNO\\\hline
+BIC01 & INTRODUCCIÓN A LA COMPUTACIÓN & F & 1 & 2 & 0 & 3 & 2 & NINGUNO\\\hline
+BMA02 & CALCULO INTEGRAL & G & 4 & 2 & 0 & 6 & 5 & BMA01\\\hline
+BMA03 & ALGEBRA LINEAL & G & 3 & 2 & 0 & 5 & 4 & NINGUNO\\\hline
+MB224 & FÍSICA II & F & 4 & 3 & 0 & 7 & 5 & BFI01\\\hline
+MC401 & ELEMENTOS DE MÁQUINAS & D & 0 & 2 & 0 & 2 & 1 & IA001\\\hline
+MC509 & DIBUJO MECÁNICO & H & 2 & 3 & 0 & 5 & 3 & MC501-MC502\\\hline
+}
+\totalcreditos{23}
+
+%==================== TERCER CICLO ====================
+\ciclo{TERCER CICLO}{
+MB148 & CALCULO VECTORIAL & F & 4 & 2 & 0 & 6 & 5 & BMA02\\\hline
+MB226 & FÍSICA III & F & 4 & 3 & 0 & 7 & 5 & MB224\\\hline
+MB613 & ESTADÍSTICA Y PROBABILIDADES & F & 2 & 2 & 0 & 4 & 3 & BMA02\\\hline
+MC112 & CIENCIAS DE LOS MATERIALES & F & 3 & 2 & 0 & 5 & 4 & BQU01\\\hline
+MC337 & ESTÁTICA & H & 3 & 3 & 0 & 6 & 4 & BFI01-BMA02\\\hline
+MB545 & PROGRAMACION ORIENTADA POR OBJETOS & F & 3 & 3 & 0 & 6 & 4 & BMA03-BIC01\\\hline
+}
+\totalcreditos{25}
+
+\newpage
+
+%==================== CUARTO CICLO ====================
+\ciclo{CUARTO CICLO}{
+MB155 & ECUACIONES DIFERENCIALES & F & 4 & 2 & 0 & 6 & 5 & MB148\\\hline
+MC361 & RESISTENCIA DE MATERIALES & F & 4 & 2 & 0 & 6 & 5 & MC337\\\hline
+MN121 & TERMODINAMICA & F & 4 & 2 & 0 & 6 & 5 & BQU01-MB224\\\hline
+MN216 & MECANICA DE FLUIDOS I & F & 3 & 3 & 0 & 6 & 4 & MB148-MB224\\\hline
+MC338 & DINAMICA & H & 3 & 3 & 0 & 6 & 4 & MC337\\\hline
+MS112 & DESARROLLO DE HABILIDADES SOCIALES Y LIDERAZGO & D & 0 & 2 & 0 & 2 & 1 & BRC01\\\hline
+BAE01 & ACTIVIDADES EXTRACURRICULARES & & & & & & 1 & NINGUNO\\\hline
+}
+\totalcreditos{25}
+
+%==================== QUINTO CICLO ====================
+\ciclo{QUINTO CICLO}{
+BEF01 & ÉTICA Y FILOSOFÍA POLÍTICA & D & 1 & 2 & 0 & 3 & 2 & NINGUNO\\\hline
+MN217 & MECANICA DE FLUIDOS II & F & 2 & 2 & 0 & 4 & 3 & MN216\\\hline
+MB536 & METODOS NUMERICOS & F & 2 & 3 & 0 & 5 & 3 & MB155-MB545\\\hline
+BRN01 & REALIDAD NACIONAL, CONSTITUCIÓN Y DDHH & D & 2 & 2 & 0 & 4 & 3 & NINGUNO\\\hline
+ML140 & CIRCUITOS ELECTRICOS & F & 3 & 3 & 0 & 6 & 4 & MB226\\\hline
+IA501 & ESTRUCTURAS AEROESPACIALES I & F & 2 & 0 & 2 & 4 & 3 & MC338\\\hline
+IA502 & ELEMENTOS FINITOS PARA ANALISIS DE ESTRUCTURAS AEROESPACIALES & I & 2 & 0 & 2 & 4 & 3 & BMA03-MC361\\\hline
+}
+\totalcreditos{21}
+
+%==================== SEXTO CICLO ====================
+\ciclo{SEXTO CICLO}{
+MN314 & TRANSFERENCIA DE CALOR Y MASA & F & 3 & 3 & 0 & 6 & 4 & MB536-MN217\\\hline
+ML830 & ELECTRONICA & F & 2 & 2 & 0 & 4 & 3 & ML140\\\hline
+MT235 & CONTROL CLÁSICO & F & 2 & 2 & 0 & 4 & 3 & MB155\\\hline
+IA601 & DISEÑO Y CONSTRUCCIÓN DE SISTEMAS ESPACIALES & F & 2 & 2 & 0 & 4 & 3 & IA501\\\hline
+IA602 & AERODINÁMICA I & F & 2 & 0 & 2 & 4 & 3 & MN217\\\hline
+IA603 & ESTRUCTURAS AEROESPACIALES II & F & 2 & 0 & 2 & 4 & 3 & IA501\\\hline
+BIE01 & IDIOMA EXTRANGERO O LENGUA NATIVA & & & & & & 2 & NINGUNO\\\hline
+}
+\totalcreditos{21}
+
+\newpage
+
+%==================== SÉPTIMO CICLO ====================
+\ciclo{SEPTIMO CICLO}{
+MT227 & CONTROL MODERNO Y OPTIMO & F & 2 & 2 & 0 & 4 & 3 & MT235\\\hline
+IA701 & ELECTRÓNICA PARA APLICACIONES AEROESPACIALES & F & 3 & 3 & 0 & 6 & 4 & ML830\\\hline
+IA702 & MECÁNICA DE VUELO Y ORBITAL & F & 2 & 2 & 0 & 4 & 3 & IA601\\\hline
+IA703 & INGENIERÍA DE SISTEMAS & F & 2 & 2 & 0 & 4 & 3 & NINGUNO\\\hline
+IA704 & SEÑALES ALEATORIAS Y SISTEMAS DINÁMICOS & F & 2 & 2 & 0 & 4 & 3 & MT235\\\hline
+IA705 & AERODINAMICA II & F & 2 & 0 & 2 & 4 & 3 & IA602\\\hline
+IA706 & PROPULSIÓN AEROESPACIAL & F & 2 & 0 & 2 & 4 & 3 & MN314-IA602\\\hline
+}
+\totalcreditos{22}
+
+%==================== OCTAVO CICLO ====================
+\ciclo{OCTAVO CICLO}{
+MC601 & METODOLOGÍA DE LA INVESTIGACIÓN & D & 0 & 4 & 0 & 4 & 2 & MB536\\\hline
+MS213 & INGENIERIA ECONOMICA Y FINANZAS & H & 1 & 3 & 2 & 6 & 2 & BEG01\\\hline
+IA801 & VERIFICACIÓN Y CALIDAD DE SISTEMAS AEROESPACIALES & F & 2 & 2 & 0 & 4 & 3 & IA703\\\hline
+IA802 & PROYECTO CONCEPTUAL DE SISTEMAS AEROESPACIALES & F & 2 & 0 & 2 & 4 & 3 & IA602\\\hline
+IA803 & DINÁMICA Y CONTROL DE VEHÍCULOS ESPACIALES & F & 2 & 2 & 0 & 4 & 3 & MT227\\\hline
+IA804 & DINÁMICA DE FLUIDOS COMPUTACIONAL & F & 2 & 0 & 2 & 4 & 3 & IA705\\\hline
+IA805 & DINÁMICA DE ESTRUCTURAS AEROESPACIALES Y AEROELASTICIDAD. & F & 2 & 0 & 2 & 4 & 3 & IA704\\\hline
+}
+\totalcreditos{19}
+
+%==================== NOVENO CICLO ====================
+\ciclo{NOVENO CICLO}{
+IA901 & PROYECTO DE SISTEMAS AEROESPACIALES AVANZADOS & F & 2 & 2 & 2 & 6 & 4 & IA802\\\hline
+IA902 & SISTEMAS DE SUELO & F & 2 & 0 & 2 & 4 & 3 & IA701\\\hline
+IA903 & SENSORES Y SISTEMA DE NAVEGACIÓN Y GUIADO & F & 2 & 0 & 2 & 4 & 3 & IA704-MT227\\\hline
+IA904 & MOTOR COHETE DE PROPULSOR LÍQUIDO & F & 2 & 0 & 2 & 4 & 3 & IA706\\\hline
+IA905 & MEDIO AMBIENTE Y SOSTENIBILIDAD EN EL SECTOR AEROESPACIAL & I & 1 & 2 & 0 & 3 & 2 & IA001\\\hline
+IA906 & TALLER DE PROYECTO DE INVESTIGACION & D & 0 & 4 & 0 & 4 & 2 & 160 CR\\\hline
+ & PRACTICAS PRE PROFESIONALES & & & & & & 2 & A partir del 6° ciclo\\\hline
+}
+\totalcreditos{19}
+
+\newpage
+
+%==================== DÉCIMO CICLO ====================
+\ciclo{DÉCIMO CICLO}{
+IA101 & AERODINÁMICA EN RÉGIMEN SUPERSÓNICO & F & 2 & 2 & 0 & 4 & 3 & IA804\\\hline
+IA102 & SIMULACIÓN Y CONTROL DE VEHÍCULOS ESPACIALES & F & 2 & 0 & 2 & 4 & 3 & IA803\\\hline
+IA103 & REGULACION Y LEGISLACION AEROESPACIAL & I & 1 & 2 & 0 & 3 & 2 & IA905\\\hline
+IA104 & TALLER DE INVESTIGACION & D & 0 & 4 & 0 & 4 & 2 & IA906\\\hline
+ & ELECTIVO I & F & 2 & 0 & 2 & 4 & 3 & A partir del 6° ciclo\\\hline
+ & ELECTIVO II & F & 2 & 0 & 2 & 4 & 3 & A partir del 6° ciclo\\\hline
+}
+\totalcreditos{16}
+
+%==================== CURSOS ELECTIVOS ====================
+\ciclo{CURSOS ELECTIVOS}{
+IAE01 & PROPULSIÓN CON COMBUSTIBLES LÍQUIDOS Y SÓLIDOS & F & 2 & 0 & 2 & 4 & 3 & IA706\\\hline
+IAE02 & OPERACIÓN Y MANTENIMIENTO DE AERONAVES & F & 2 & 2 & 0 & 4 & 3 & IA601\\\hline
+IAE03 & DISEÑO Y CONSTRUCCIÓN DE NANOSATÉLITES & F & 2 & 2 & 0 & 4 & 3 & IA701\\\hline
+IAE04 & PROCESAMIENTO DE IMÁGENES SATELITALES & F & 2 & 2 & 0 & 4 & 3 & IA704\\\hline
+IAE05 & ASTRONAÚTICA & F & 2 & 2 & 0 & 4 & 3 & IA702\\\hline
+IAE06 & ROBÓTICA AEROESPACIAL & F & 2 & 2 & 0 & 4 & 3 & MT227\\\hline
+IAE07 & TECNOLOGÍA DE MATERIALES AEROESPACIALES & F & 2 & 2 & 0 & 4 & 3 & MN314\\\hline
+IAE08 & MISILES & F & 2 & 2 & 0 & 4 & 3 & IA705\\\hline
+IAE09 & VEHÍCULOS NO TRIPULADOS & F & 2 & 2 & 0 & 4 & 3 & IA701\\\hline
+IAE10 & DISEÑO Y CONSTRUCCIÓN DE COHETES & F & 2 & 2 & 0 & 4 & 3 & IA706\\\hline
+IAE11 & LABORATORIO DE REALIDAD VIRTUAL EN EL SECTOR AEROESPACIAL & F & 2 & 0 & 2 & 4 & 3 & IA601\\\hline
+IAE12 & FUNDAMENTOS DE DISEÑO Y FABRICACIÓN DE ANTENAS Y RADARES & F & 2 & 2 & 0 & 4 & 3 & IA704\\\hline
+}
+
+%==================== CRÉDITOS REQUERIDOS ====================
+\begin{center}\normalsize\renewcommand{\arraystretch}{1.2}
+\begin{tabularx}{\textwidth}{|N|r|}
+\hline
+\multicolumn{2}{|c|}{\cellcolor{azulclaro}\textbf{NÚMERO DE CRÉDITOS REQUERIDOS}}\\
+\hline
+\textbf{POR ESTUDIOS GENERALES} & \textbf{39}\\
+\hline
+\textbf{POR ESTUDIOS ESPECÍFICOS Y DE ESPECIALIDAD} & \textbf{166}\\
+\hline
+\textbf{POR CURSOS ELECTIVOS} & \textbf{6}\\
+\hline
+\textbf{POR PRÁCTICAS PRE PROFESIONALES (mínimo 300 horas efectivas de prácticas preprofesionales por crédito al menos 2 créditos)} & \textbf{2}\\
+\hline
+\textbf{NÚMERO DE CRÉDITOS MÍNIMOS PARA EGRESAR} & \textbf{213}\\
+\hline
+\end{tabularx}
+\end{center}
+
+\end{document}
