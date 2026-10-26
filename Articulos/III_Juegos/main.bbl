@@ -1,0 +1,449 @@
+% $ biblatex auxiliary file $
+% $ biblatex bbl format version 3.3 $
+% Do not modify the above lines!
+%
+% This is an auxiliary file used by the 'biblatex' package.
+% This file may safely be deleted. It will be recreated by
+% biber as required.
+%
+\begingroup
+\makeatletter
+\@ifundefined{ver@biblatex.sty}
+  {\@latex@error
+     {Missing 'biblatex' package}
+     {The bibliography requires the 'biblatex' package.}
+      \aftergroup\endinput}
+  {}
+\endgroup
+
+
+\refsection{0}
+  \datalist[entry]{apa/apasortcite//global/global/global}
+    \entry{cidh2023}{report}{}{}
+      \name{author}{1}{}{%
+        {{hash=3554d4ddf66bfddb40beac0297816df6}{%
+           family={{Comisión Interamericana de Derechos Humanos}},
+           familyi={C\bibinitperiod}}}%
+      }
+      \name{shortauthor}{1}{}{%
+        {{un=0,uniquepart=base,hash=ba7ead74fbff8565d48c9bc5f0e4745a}{%
+           family={CIDH},
+           familyi={C\bibinitperiod}}}%
+      }
+      \list{institution}{1}{%
+        {Organización de los Estados Americanos}%
+      }
+      \strng{namehash}{ba7ead74fbff8565d48c9bc5f0e4745a}
+      \strng{fullhash}{3554d4ddf66bfddb40beac0297816df6}
+      \strng{fullhashraw}{3554d4ddf66bfddb40beac0297816df6}
+      \strng{bibnamehash}{ba7ead74fbff8565d48c9bc5f0e4745a}
+      \strng{authorbibnamehash}{3554d4ddf66bfddb40beac0297816df6}
+      \strng{authornamehash}{3554d4ddf66bfddb40beac0297816df6}
+      \strng{authorfullhash}{3554d4ddf66bfddb40beac0297816df6}
+      \strng{authorfullhashraw}{3554d4ddf66bfddb40beac0297816df6}
+      \strng{shortauthorbibnamehash}{ba7ead74fbff8565d48c9bc5f0e4745a}
+      \strng{shortauthornamehash}{ba7ead74fbff8565d48c9bc5f0e4745a}
+      \strng{shortauthorfullhash}{ba7ead74fbff8565d48c9bc5f0e4745a}
+      \strng{shortauthorfullhashraw}{ba7ead74fbff8565d48c9bc5f0e4745a}
+      \field{sortinit}{C}
+      \field{sortinithash}{4d103a86280481745c9c897c925753c0}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{shortauthor}
+      \field{labeltitlesource}{title}
+      \field{langid}{spanish}
+      \field{number}{OEA/Ser.L/V/II. Doc. 57/23}
+      \field{title}{Situación de derechos humanos en Perú en el contexto de las protestas sociales}
+      \field{type}{Informe}
+      \field{year}{2023}
+    \endentry
+    \entry{cortina2017}{book}{}{}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=a72855f0feb0b46ea6f719e69f560522}{%
+           family={Cortina},
+           familyi={C\bibinitperiod},
+           given={Adela},
+           giveni={A\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{1}{%
+        {Paidós}%
+      }
+      \strng{namehash}{a72855f0feb0b46ea6f719e69f560522}
+      \strng{fullhash}{a72855f0feb0b46ea6f719e69f560522}
+      \strng{fullhashraw}{a72855f0feb0b46ea6f719e69f560522}
+      \strng{bibnamehash}{a72855f0feb0b46ea6f719e69f560522}
+      \strng{authorbibnamehash}{a72855f0feb0b46ea6f719e69f560522}
+      \strng{authornamehash}{a72855f0feb0b46ea6f719e69f560522}
+      \strng{authorfullhash}{a72855f0feb0b46ea6f719e69f560522}
+      \strng{authorfullhashraw}{a72855f0feb0b46ea6f719e69f560522}
+      \field{sortinit}{C}
+      \field{sortinithash}{4d103a86280481745c9c897c925753c0}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{isbn}{978-84-493-3338-5}
+      \field{langid}{spanish}
+      \field{title}{Aporofobia, el rechazo al pobre: Un desafío para la democracia}
+      \field{year}{2017}
+    \endentry
+    \entry{darley1968}{article}{}{}
+      \name{author}{2}{}{%
+        {{un=0,uniquepart=base,hash=fc886b2341a1510fa64a8c9a704e15e1}{%
+           family={Darley},
+           familyi={D\bibinitperiod},
+           given={John\bibnamedelima M.},
+           giveni={J\bibinitperiod\bibinitdelim M\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=c735e4d9a45c60d56f5b35f52210fec2}{%
+           family={Latané},
+           familyi={L\bibinitperiod},
+           given={Bibb},
+           giveni={B\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{df6000f688ad62eab12255e47ef30cc7}
+      \strng{fullhash}{df6000f688ad62eab12255e47ef30cc7}
+      \strng{fullhashraw}{df6000f688ad62eab12255e47ef30cc7}
+      \strng{bibnamehash}{df6000f688ad62eab12255e47ef30cc7}
+      \strng{authorbibnamehash}{df6000f688ad62eab12255e47ef30cc7}
+      \strng{authornamehash}{df6000f688ad62eab12255e47ef30cc7}
+      \strng{authorfullhash}{df6000f688ad62eab12255e47ef30cc7}
+      \strng{authorfullhashraw}{df6000f688ad62eab12255e47ef30cc7}
+      \field{sortinit}{D}
+      \field{sortinithash}{6f385f66841fb5e82009dc833c761848}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Journal of Personality and Social Psychology}
+      \field{langid}{english}
+      \field{number}{4, Pt.1}
+      \field{title}{Bystander intervention in emergencies: Diffusion of responsibility}
+      \field{volume}{8}
+      \field{year}{1968}
+      \field{pages}{377\bibrangedash 383}
+      \range{pages}{7}
+    \endentry
+    \entry{defensoria2026}{report}{}{}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=8244528b8b62de464885521dd3ef105b}{%
+           family={{Defensoría del Pueblo}},
+           familyi={D\bibinitperiod}}}%
+      }
+      \strng{namehash}{8244528b8b62de464885521dd3ef105b}
+      \strng{fullhash}{8244528b8b62de464885521dd3ef105b}
+      \strng{fullhashraw}{8244528b8b62de464885521dd3ef105b}
+      \strng{bibnamehash}{8244528b8b62de464885521dd3ef105b}
+      \strng{authorbibnamehash}{8244528b8b62de464885521dd3ef105b}
+      \strng{authornamehash}{8244528b8b62de464885521dd3ef105b}
+      \strng{authorfullhash}{8244528b8b62de464885521dd3ef105b}
+      \strng{authorfullhashraw}{8244528b8b62de464885521dd3ef105b}
+      \field{sortinit}{D}
+      \field{sortinithash}{6f385f66841fb5e82009dc833c761848}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{langid}{spanish}
+      \field{number}{267}
+      \field{title}{Reporte de conflictos sociales: Mayo 2026}
+      \field{type}{Reporte}
+      \field{year}{2026}
+      \verb{urlraw}
+      \verb https://www.defensoria.gob.pe/wp-content/uploads/2026/06/Reporte-de-Conflictos-Sociales-n-267-VF.pdf
+      \endverb
+      \verb{url}
+      \verb https://www.defensoria.gob.pe/wp-content/uploads/2026/06/Reporte-de-Conflictos-Sociales-n-267-VF.pdf
+      \endverb
+    \endentry
+    \entry{small2003}{article}{}{}
+      \name{author}{2}{}{%
+        {{un=0,uniquepart=base,hash=ec719f495c44d1e45532ecdb458503e9}{%
+           family={Small},
+           familyi={S\bibinitperiod},
+           given={Deborah\bibnamedelima A.},
+           giveni={D\bibinitperiod\bibinitdelim A\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=898ca02622955fd1ccdcf47220061ed2}{%
+           family={Loewenstein},
+           familyi={L\bibinitperiod},
+           given={George},
+           giveni={G\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{fc11ea634fb2b249cc82ed0d0b0d8e33}
+      \strng{fullhash}{fc11ea634fb2b249cc82ed0d0b0d8e33}
+      \strng{fullhashraw}{fc11ea634fb2b249cc82ed0d0b0d8e33}
+      \strng{bibnamehash}{fc11ea634fb2b249cc82ed0d0b0d8e33}
+      \strng{authorbibnamehash}{fc11ea634fb2b249cc82ed0d0b0d8e33}
+      \strng{authornamehash}{fc11ea634fb2b249cc82ed0d0b0d8e33}
+      \strng{authorfullhash}{fc11ea634fb2b249cc82ed0d0b0d8e33}
+      \strng{authorfullhashraw}{fc11ea634fb2b249cc82ed0d0b0d8e33}
+      \field{sortinit}{S}
+      \field{sortinithash}{b164b07b29984b41daf1e85279fbc5ab}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Journal of Risk and Uncertainty}
+      \field{langid}{english}
+      \field{number}{1}
+      \field{title}{Helping a victim or helping the victim: Altruism and identifiability}
+      \field{volume}{26}
+      \field{year}{2003}
+      \field{pages}{5\bibrangedash 16}
+      \range{pages}{12}
+    \endentry
+    \entry{niemoeller_ushmm}{online}{}{}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=a58d38d915278697bceb1dbbea6358e6}{%
+           family={{United States Holocaust Memorial Museum}},
+           familyi={U\bibinitperiod}}}%
+      }
+      \strng{namehash}{a58d38d915278697bceb1dbbea6358e6}
+      \strng{fullhash}{a58d38d915278697bceb1dbbea6358e6}
+      \strng{fullhashraw}{a58d38d915278697bceb1dbbea6358e6}
+      \strng{bibnamehash}{a58d38d915278697bceb1dbbea6358e6}
+      \strng{authorbibnamehash}{a58d38d915278697bceb1dbbea6358e6}
+      \strng{authornamehash}{a58d38d915278697bceb1dbbea6358e6}
+      \strng{authorfullhash}{a58d38d915278697bceb1dbbea6358e6}
+      \strng{authorfullhashraw}{a58d38d915278697bceb1dbbea6358e6}
+      \field{sortinit}{U}
+      \field{sortinithash}{6901a00e45705986ee5e7ca9fd39adca}
+      \field{labeldatesource}{nodate}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{langid}{english}
+      \field{title}{{Martin Niemöller}: ``{First they came for the Socialists}\ldots''}
+      \verb{urlraw}
+      \verb https://encyclopedia.ushmm.org/content/en/article/martin-niemoeller-first-they-came-for-the-socialists
+      \endverb
+      \verb{url}
+      \verb https://encyclopedia.ushmm.org/content/en/article/martin-niemoeller-first-they-came-for-the-socialists
+      \endverb
+    \endentry
+  \enddatalist
+  \datalist[entry]{apa/global//global/global/global}
+    \entry{cidh2023}{report}{}{}
+      \name{author}{1}{}{%
+        {{hash=3554d4ddf66bfddb40beac0297816df6}{%
+           family={{Comisión Interamericana de Derechos Humanos}},
+           familyi={C\bibinitperiod}}}%
+      }
+      \name{shortauthor}{1}{}{%
+        {{un=0,uniquepart=base,hash=ba7ead74fbff8565d48c9bc5f0e4745a}{%
+           family={CIDH},
+           familyi={C\bibinitperiod}}}%
+      }
+      \list{institution}{1}{%
+        {Organización de los Estados Americanos}%
+      }
+      \strng{namehash}{ba7ead74fbff8565d48c9bc5f0e4745a}
+      \strng{fullhash}{3554d4ddf66bfddb40beac0297816df6}
+      \strng{fullhashraw}{3554d4ddf66bfddb40beac0297816df6}
+      \strng{bibnamehash}{ba7ead74fbff8565d48c9bc5f0e4745a}
+      \strng{authorbibnamehash}{3554d4ddf66bfddb40beac0297816df6}
+      \strng{authornamehash}{3554d4ddf66bfddb40beac0297816df6}
+      \strng{authorfullhash}{3554d4ddf66bfddb40beac0297816df6}
+      \strng{authorfullhashraw}{3554d4ddf66bfddb40beac0297816df6}
+      \strng{shortauthorbibnamehash}{ba7ead74fbff8565d48c9bc5f0e4745a}
+      \strng{shortauthornamehash}{ba7ead74fbff8565d48c9bc5f0e4745a}
+      \strng{shortauthorfullhash}{ba7ead74fbff8565d48c9bc5f0e4745a}
+      \strng{shortauthorfullhashraw}{ba7ead74fbff8565d48c9bc5f0e4745a}
+      \field{sortinit}{C}
+      \field{sortinithash}{4d103a86280481745c9c897c925753c0}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{shortauthor}
+      \field{labeltitlesource}{title}
+      \field{langid}{spanish}
+      \field{number}{OEA/Ser.L/V/II. Doc. 57/23}
+      \field{title}{Situación de derechos humanos en Perú en el contexto de las protestas sociales}
+      \field{type}{Informe}
+      \field{year}{2023}
+    \endentry
+    \entry{cortina2017}{book}{}{}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=a72855f0feb0b46ea6f719e69f560522}{%
+           family={Cortina},
+           familyi={C\bibinitperiod},
+           given={Adela},
+           giveni={A\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{1}{%
+        {Paidós}%
+      }
+      \strng{namehash}{a72855f0feb0b46ea6f719e69f560522}
+      \strng{fullhash}{a72855f0feb0b46ea6f719e69f560522}
+      \strng{fullhashraw}{a72855f0feb0b46ea6f719e69f560522}
+      \strng{bibnamehash}{a72855f0feb0b46ea6f719e69f560522}
+      \strng{authorbibnamehash}{a72855f0feb0b46ea6f719e69f560522}
+      \strng{authornamehash}{a72855f0feb0b46ea6f719e69f560522}
+      \strng{authorfullhash}{a72855f0feb0b46ea6f719e69f560522}
+      \strng{authorfullhashraw}{a72855f0feb0b46ea6f719e69f560522}
+      \field{sortinit}{C}
+      \field{sortinithash}{4d103a86280481745c9c897c925753c0}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{isbn}{978-84-493-3338-5}
+      \field{langid}{spanish}
+      \field{title}{Aporofobia, el rechazo al pobre: Un desafío para la democracia}
+      \field{year}{2017}
+    \endentry
+    \entry{darley1968}{article}{}{}
+      \name{author}{2}{}{%
+        {{un=0,uniquepart=base,hash=fc886b2341a1510fa64a8c9a704e15e1}{%
+           family={Darley},
+           familyi={D\bibinitperiod},
+           given={John\bibnamedelima M.},
+           giveni={J\bibinitperiod\bibinitdelim M\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=c735e4d9a45c60d56f5b35f52210fec2}{%
+           family={Latané},
+           familyi={L\bibinitperiod},
+           given={Bibb},
+           giveni={B\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{df6000f688ad62eab12255e47ef30cc7}
+      \strng{fullhash}{df6000f688ad62eab12255e47ef30cc7}
+      \strng{fullhashraw}{df6000f688ad62eab12255e47ef30cc7}
+      \strng{bibnamehash}{df6000f688ad62eab12255e47ef30cc7}
+      \strng{authorbibnamehash}{df6000f688ad62eab12255e47ef30cc7}
+      \strng{authornamehash}{df6000f688ad62eab12255e47ef30cc7}
+      \strng{authorfullhash}{df6000f688ad62eab12255e47ef30cc7}
+      \strng{authorfullhashraw}{df6000f688ad62eab12255e47ef30cc7}
+      \field{sortinit}{D}
+      \field{sortinithash}{6f385f66841fb5e82009dc833c761848}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Journal of Personality and Social Psychology}
+      \field{langid}{english}
+      \field{number}{4, Pt.1}
+      \field{title}{Bystander intervention in emergencies: Diffusion of responsibility}
+      \field{volume}{8}
+      \field{year}{1968}
+      \field{pages}{377\bibrangedash 383}
+      \range{pages}{7}
+    \endentry
+    \entry{defensoria2026}{report}{}{}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=8244528b8b62de464885521dd3ef105b}{%
+           family={{Defensoría del Pueblo}},
+           familyi={D\bibinitperiod}}}%
+      }
+      \strng{namehash}{8244528b8b62de464885521dd3ef105b}
+      \strng{fullhash}{8244528b8b62de464885521dd3ef105b}
+      \strng{fullhashraw}{8244528b8b62de464885521dd3ef105b}
+      \strng{bibnamehash}{8244528b8b62de464885521dd3ef105b}
+      \strng{authorbibnamehash}{8244528b8b62de464885521dd3ef105b}
+      \strng{authornamehash}{8244528b8b62de464885521dd3ef105b}
+      \strng{authorfullhash}{8244528b8b62de464885521dd3ef105b}
+      \strng{authorfullhashraw}{8244528b8b62de464885521dd3ef105b}
+      \field{sortinit}{D}
+      \field{sortinithash}{6f385f66841fb5e82009dc833c761848}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{langid}{spanish}
+      \field{number}{267}
+      \field{title}{Reporte de conflictos sociales: Mayo 2026}
+      \field{type}{Reporte}
+      \field{year}{2026}
+      \verb{urlraw}
+      \verb https://www.defensoria.gob.pe/wp-content/uploads/2026/06/Reporte-de-Conflictos-Sociales-n-267-VF.pdf
+      \endverb
+      \verb{url}
+      \verb https://www.defensoria.gob.pe/wp-content/uploads/2026/06/Reporte-de-Conflictos-Sociales-n-267-VF.pdf
+      \endverb
+    \endentry
+    \entry{small2003}{article}{}{}
+      \name{author}{2}{}{%
+        {{un=0,uniquepart=base,hash=ec719f495c44d1e45532ecdb458503e9}{%
+           family={Small},
+           familyi={S\bibinitperiod},
+           given={Deborah\bibnamedelima A.},
+           giveni={D\bibinitperiod\bibinitdelim A\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=898ca02622955fd1ccdcf47220061ed2}{%
+           family={Loewenstein},
+           familyi={L\bibinitperiod},
+           given={George},
+           giveni={G\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{fc11ea634fb2b249cc82ed0d0b0d8e33}
+      \strng{fullhash}{fc11ea634fb2b249cc82ed0d0b0d8e33}
+      \strng{fullhashraw}{fc11ea634fb2b249cc82ed0d0b0d8e33}
+      \strng{bibnamehash}{fc11ea634fb2b249cc82ed0d0b0d8e33}
+      \strng{authorbibnamehash}{fc11ea634fb2b249cc82ed0d0b0d8e33}
+      \strng{authornamehash}{fc11ea634fb2b249cc82ed0d0b0d8e33}
+      \strng{authorfullhash}{fc11ea634fb2b249cc82ed0d0b0d8e33}
+      \strng{authorfullhashraw}{fc11ea634fb2b249cc82ed0d0b0d8e33}
+      \field{sortinit}{S}
+      \field{sortinithash}{b164b07b29984b41daf1e85279fbc5ab}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Journal of Risk and Uncertainty}
+      \field{langid}{english}
+      \field{number}{1}
+      \field{title}{Helping a victim or helping the victim: Altruism and identifiability}
+      \field{volume}{26}
+      \field{year}{2003}
+      \field{pages}{5\bibrangedash 16}
+      \range{pages}{12}
+    \endentry
+    \entry{niemoeller_ushmm}{online}{}{}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=a58d38d915278697bceb1dbbea6358e6}{%
+           family={{United States Holocaust Memorial Museum}},
+           familyi={U\bibinitperiod}}}%
+      }
+      \strng{namehash}{a58d38d915278697bceb1dbbea6358e6}
+      \strng{fullhash}{a58d38d915278697bceb1dbbea6358e6}
+      \strng{fullhashraw}{a58d38d915278697bceb1dbbea6358e6}
+      \strng{bibnamehash}{a58d38d915278697bceb1dbbea6358e6}
+      \strng{authorbibnamehash}{a58d38d915278697bceb1dbbea6358e6}
+      \strng{authornamehash}{a58d38d915278697bceb1dbbea6358e6}
+      \strng{authorfullhash}{a58d38d915278697bceb1dbbea6358e6}
+      \strng{authorfullhashraw}{a58d38d915278697bceb1dbbea6358e6}
+      \field{sortinit}{U}
+      \field{sortinithash}{6901a00e45705986ee5e7ca9fd39adca}
+      \field{labeldatesource}{nodate}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{langid}{english}
+      \field{title}{{Martin Niemöller}: ``{First they came for the Socialists}\ldots''}
+      \verb{urlraw}
+      \verb https://encyclopedia.ushmm.org/content/en/article/martin-niemoeller-first-they-came-for-the-socialists
+      \endverb
+      \verb{url}
+      \verb https://encyclopedia.ushmm.org/content/en/article/martin-niemoeller-first-they-came-for-the-socialists
+      \endverb
+    \endentry
+  \enddatalist
+\endrefsection
+\endinput
+

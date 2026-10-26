@@ -1,0 +1,239 @@
+% =====================================================================
+% III Juegos Florales Agustinos por los Derechos Humanos
+% Categoría: Artículo de opinión
+
+\documentclass[10pt,a4paper]{article}
+
+% --- Idioma y codificación -------------------------------------------
+\usepackage[spanish,es-noshorthands]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{csquotes}
+\usepackage{tabularx}
+\usepackage{scrhack}
+\usepackage{float}
+
+% --- Página y tipografía ---------------------------------------------
+\usepackage[a4paper,margin=2.54cm]{geometry}
+\usepackage{newtxtext,newtxmath}
+\usepackage{setspace}
+\doublespacing
+\setlength{\parindent}{1.27cm}
+\setlength{\parskip}{0pt}
+
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage{enumitem}
+\usepackage{booktabs}
+\usepackage{fancyhdr}
+
+% --- Hipervínculos y bibliografía (hyperref antes de biblatex) -------
+\usepackage[hidelinks]{hyperref}
+\hypersetup{
+  pdftitle={Si no es mi familia, no es mi problema: la indiferencia selectiva del universitario},
+  pdfauthor={Camilo Bladimir Alexander Capatinta Almanza}
+}
+\usepackage[style=apa, backend=biber, sortcites=true]{biblatex}
+\DeclareLanguageMapping{spanish}{spanish-apa}
+\addbibresource{referencias.bib}
+
+% --- Macros ----------------------------------------------------------
+% Marcador de contenido pendiente (se ve en rojo; búscalo con Ctrl+F "[").
+\newcommand{\relleno}[1][Contenido pendiente]{\textcolor{red}{\textbf{[#1]}}}
+
+\newcommand{\titulo}{Si no es mi familia, no es mi problema:\\ la indiferencia selectiva del universitario}
+\newcommand{\autor}{Camilo Bladimir Alexander Capatinta Almanza}
+\newcommand{\autorcorto}{Capatinta Almanza}
+
+% --- Encabezado y pie de página --------------------------------------
+\setlength{\headheight}{14.5pt}
+\pagestyle{fancy}
+\fancyhf{}
+\renewcommand{\headrulewidth}{0pt}
+\fancyfoot[L]{\small \autorcorto}
+\fancyfoot[C]{\small III Juegos Florales Agustinos}
+\fancyfoot[R]{\small Página \thepage}
+
+\begin{document}
+
+% =====================================================================
+% PORTADA
+% =====================================================================
+%TC:ignore
+\begin{titlepage}
+\thispagestyle{empty}
+\begin{singlespace}
+\centering
+
+\IfFileExists{Escudo_UNSA.png}%
+  {\includegraphics[height=3cm]{Escudo_UNSA.png}}%
+  {\relleno[Falta Escudo\_UNSA.png en la carpeta]}\\[1em]
+
+{\large\bfseries UNIVERSIDAD NACIONAL DE SAN AGUSTÍN DE AREQUIPA}\\[0.4em]
+{\large Defensoría Universitaria}\\[3em]
+
+{\large\bfseries III JUEGOS FLORALES AGUSTINOS\\ POR LOS DERECHOS HUMANOS}\\[0.4em]
+{\itshape Entre colores y voces}\\[1.5em]
+{\large Categoría: Artículo de opinión}
+
+\vfill
+
+{\LARGE\bfseries \titulo}
+
+\vfill
+
+\begin{tabular}{rl}
+  \textbf{Autor:} & \autor \\
+  \textbf{Escuela Profesional:} & Ingeniería de Sistemas \\
+\end{tabular}
+
+\vfill
+
+Arequipa, Perú\\
+2026
+
+\end{singlespace}
+\end{titlepage}
+\setcounter{page}{1}
+%TC:endignore
+
+\begin{center}
+{\large\bfseries \titulo}\\[0.5em]
+{\normalsize \autor}
+\end{center}
+
+\section*{Introducción}
+% Objetivo (~110 palabras): gancho, tesis en una frase y anuncio de los tres argumentos.
+Defendemos los derechos humanos con una condición que casi nunca decimos en
+voz alta: que el golpe nos alcance. Los estudiamos en cursos que se aprueban y
+se olvidan, y solo nos indignamos cuando alguien de casa resulta mordido. Como
+dice el dicho, la víbora solo ataca al descalzo, y nosotros solo ayudamos al
+descalzo que lleva nuestro apellido.
+\relleno[Verificar la formulación exacta del dicho antes de usarlo]
+\relleno[Tesis en una frase: la indiferencia del universitario no nace de la falta de información, sino de un privilegio que confundimos con normalidad. Anunciar los tres argumentos: psicológico, sociológico-político y filosófico]
+
+\section*{La cercanía como filtro}
+% Dimensión psicológica (~150 palabras).
+\textcite{darley1968} comprobaron que, mientras más testigos de una emergencia
+creían que había, menos probable y más lenta era la ayuda, y propusieron que
+cada testigo siente que la responsabilidad se reparte y que alguien más actuará.
+Algo parecido ocurre con el sufrimiento anónimo: \textcite{small2003} hallaron
+que basta saber quién es la víctima, incluso sin datos personales, para que
+aumente la disposición a ayudar.
+\relleno[Aplicar al universitario ante una marcha o un reclamo ajeno. Aclarar que son hallazgos de laboratorio usados como analogía y que el efecto de la víctima identificable suele ser pequeño en revisiones posteriores]
+
+\section*{Cursos de relleno y protestas bajo sospecha}
+% Dimensión sociológico-política (~180 palabras). Aquí va el dato.
+El problema es persistente. En mayo de 2026, la Defensoría del Pueblo
+registró 195 conflictos sociales en el país, 153 de ellos activos
+\parencite{defensoria2026}. Y quien reclama puede cargar además con un
+estigma: la Comisión Interamericana de Derechos Humanos dedicó un apartado de
+su informe sobre las protestas en el Perú a la estigmatización
+\parencite{cidh2023}.
+\relleno[Cuidar: no todo conflicto social es una violación de derechos humanos, y el informe de la CIDH fue discutido en el Perú; escribir \enquote{la CIDH sostiene}. Añadir evidencia propia sobre el \enquote{curso de relleno} (plan de estudios o mini encuesta) y desarrollar el privilegio de no ser afectado]
+
+\section*{Un derecho que solo defiendo cuando me afecta}
+% Dimensión filosófica (~150 palabras).
+La Enciclopedia del Holocausto del Museo Conmemorativo del Holocausto de
+Estados Unidos recuerda a Martin Niemöller, un pastor luterano que simpatizó
+con ideas nazis antes de oponerse al régimen y cuya frase sobre el silencio
+ante las persecuciones se exhibe en el museo desde 1993
+\parencite{niemoeller_ushmm}. Por su parte, \textcite{cortina2017} llama
+aporofobia al rechazo al pobre, a quien se supone incapaz de dar algo a cambio.
+\relleno[Parafrasear la idea de Niemöller sin copiar el poema (existen varias versiones; cita la que uses). Conectar con quién \enquote{merece} nuestra indignación y cerrar con la idea central: un derecho que solo defiendo cuando me afecta no es un derecho, es un privilegio]
+
+\section*{¿Y si de nada sirve?}
+% Objeción y respuesta (~60 palabras).
+\relleno[Objeción breve: \enquote{yo solo no cambio nada} o \enquote{no tengo tiempo}. Respuesta en pocas líneas, sin sermonear]
+
+\section*{Conclusión: atreverse}
+% Conclusión con reflexión final y propuesta (~120 palabras).
+Cambiar de conciencia es lo más básico que se espera de cualquier persona con
+conciencia social y de clase, pero hoy ya no alcanza. Hace falta cuestionar,
+atreverse y exigir, por cauces pacíficos y legales, frente a lo que pretende
+mantenernos cómodos y callados.
+\relleno[Concretar \enquote{el sistema}: ¿quién controla al universitario y cómo? Poner primero el principio (la dignidad ajena no depende de que me alcance) y después la advertencia de que lo que se normaliza con uno puede repetirse con otros. Cerrar con uno o dos gestos concretos: preguntar, exigir un curso serio de derechos humanos, organizarse, acompañar con información]
+
+% =====================================================================
+% REFERENCIAS
+% =====================================================================
+%TC:ignore
+\clearpage
+\printbibliography[title={Referencias}]
+
+% =====================================================================
+% ANEXOS
+% =====================================================================
+\clearpage
+\appendix
+\renewcommand{\thesection}{Anexo \Alph{section}}
+
+\section{Ficha de datos del participante}
+% Datos obligatorios (bases, sección VIII). Se adjuntan junto con el trabajo.
+\begin{singlespace}
+\renewcommand{\arraystretch}{1.8}
+\noindent
+\begin{tabularx}{\textwidth}{@{}p{5.2cm}X@{}}
+  \toprule
+  \textbf{Dato} & \textbf{Información} \\
+  \midrule
+  Nombres y apellidos completos & \autor \\
+  Número de DNI & \relleno[DNI] \\
+  Código Universitario (CUI) & \relleno[CUI] \\
+  Número de teléfono de contacto & \relleno[Teléfono] \\
+  Correo electrónico institucional & \relleno[Correo @unsa.edu.pe] \\
+  Escuela Profesional & Ingeniería de Sistemas \\
+  Categoría en la que participa & Artículo de opinión \\
+  \bottomrule
+\end{tabularx}
+\end{singlespace}
+
+\bigskip
+\noindent\textit{Nota: la omisión de alguno de los datos puede impedir la validación de la participación (bases, sección VIII).}
+
+\section{Declaración de originalidad y autorización}
+% Opcional: las bases indican que el envío ya implica aceptación. Bórrala si no la quieres.
+\begin{singlespace}
+Yo, \autor, estudiante de la Escuela Profesional de Ingeniería de Sistemas de
+la Universidad Nacional de San Agustín de Arequipa, declaro que el artículo
+\enquote{Si no es mi familia, no es mi problema: la indiferencia selectiva del
+universitario} es de mi autoría y creación original, y que no ha sido copiado
+ni plagiado ni vulnera derechos de autor de terceras personas.
+
+Declaro conocer y aceptar las bases de los III Juegos Florales Agustinos por
+los Derechos Humanos, y autorizo a la Universidad Nacional de San Agustín de
+Arequipa, a través de la Defensoría Universitaria, a utilizar, reproducir y
+difundir el material presentado con fines exclusivamente institucionales,
+educativos, culturales y de difusión, sin fines comerciales. Esta autorización
+no implica cesión de mis derechos de autor.
+
+\vspace{3em}
+\noindent
+\begin{tabular}{@{}p{7cm}p{7cm}@{}}
+  Arequipa, \relleno[fecha] & \rule{6cm}{0.4pt} \\
+   & \autor \\
+\end{tabular}
+\end{singlespace}
+
+\section{Matriz de fuentes por dimensión}
+% Material de trabajo: ELIMINAR este anexo antes de enviar.
+\begin{singlespace}
+\small
+\renewcommand{\arraystretch}{1.3}
+\noindent
+\begin{tabularx}{\textwidth}{@{}p{2.3cm}p{3cm}XX@{}}
+  \toprule
+  \textbf{Dimensión} & \textbf{Fuente} & \textbf{Qué respalda} & \textbf{Matiz a declarar} \\
+  \midrule
+  Psicológica & \textcite{darley1968} & Más testigos percibidos, menos y más lenta ayuda; difusión de la responsabilidad. & Experimento de laboratorio sobre emergencias; usar como analogía. \\
+  Psicológica & \textcite{small2003} & Una identificabilidad mínima aumenta la disposición a ayudar. & Efecto pequeño en revisiones posteriores; no presentarlo como ley. \\
+  Sociológico-política & \textcite{defensoria2026} & Persistencia de los conflictos sociales (195 en mayo de 2026; 153 activos). & Mide conflictos, no actitudes; no todo conflicto es una violación de derechos humanos. Confirmar la cifra en el PDF. \\
+  Sociológico-política & \textcite{cidh2023} & Apartado sobre estigmatización en el contexto de las protestas. & Informe discutido en el Perú; citarlo como postura de la CIDH. Añadir URL oficial. \\
+  Filosófica & \textcite{niemoeller_ushmm} & Origen y contexto de la frase de Niemöller. & Hay varias versiones y se ha cuestionado la del museo; no copiar el poema. \\
+  Filosófica & \textcite{cortina2017} & Aporofobia: el rechazo al pobre. & Trata de la pobreza, no de la protesta; conectar con cuidado. \\
+  \bottomrule
+\end{tabularx}
+\end{singlespace}
+%TC:endignore
+
+\end{document}
