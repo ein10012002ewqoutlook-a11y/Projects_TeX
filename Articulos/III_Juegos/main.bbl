@@ -230,6 +230,46 @@
       \verb https://encyclopedia.ushmm.org/content/en/article/martin-niemoeller-first-they-came-for-the-socialists
       \endverb
     \endentry
+    \entry{VelasquezVillalba2022}{article}{}{}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=a26f63668c1cb0ea6fa9a530b30632b7}{%
+           family={Velásquez\bibnamedelima Villalba},
+           familyi={V\bibinitperiod\bibinitdelim V\bibinitperiod},
+           given={Fernando},
+           giveni={F\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{1}{%
+        {Universidad de Buenos Aires}%
+      }
+      \strng{namehash}{a26f63668c1cb0ea6fa9a530b30632b7}
+      \strng{fullhash}{a26f63668c1cb0ea6fa9a530b30632b7}
+      \strng{fullhashraw}{a26f63668c1cb0ea6fa9a530b30632b7}
+      \strng{bibnamehash}{a26f63668c1cb0ea6fa9a530b30632b7}
+      \strng{authorbibnamehash}{a26f63668c1cb0ea6fa9a530b30632b7}
+      \strng{authornamehash}{a26f63668c1cb0ea6fa9a530b30632b7}
+      \strng{authorfullhash}{a26f63668c1cb0ea6fa9a530b30632b7}
+      \strng{authorfullhashraw}{a26f63668c1cb0ea6fa9a530b30632b7}
+      \field{sortinit}{V}
+      \field{sortinithash}{afb52128e5b4dc4b843768c0113d673b}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{issn}{1666-9606}
+      \field{journaltitle}{e-l@tina. Revista electrónica de estudios latinoamericanos}
+      \field{number}{80}
+      \field{title}{De las batallas por la memoria a la marca del conflicto: ``terruqueo'', estigmatización y violencia en el Perú reciente}
+      \field{volume}{20}
+      \field{year}{2022}
+      \verb{urlraw}
+      \verb https://www.redalyc.org/articulo.oa?id=496470836005
+      \endverb
+      \verb{url}
+      \verb https://www.redalyc.org/articulo.oa?id=496470836005
+      \endverb
+    \endentry
   \enddatalist
   \datalist[entry]{apa/global//global/global/global}
     \entry{cidh2023}{report}{}{}
@@ -441,6 +481,46 @@
       \endverb
       \verb{url}
       \verb https://encyclopedia.ushmm.org/content/en/article/martin-niemoeller-first-they-came-for-the-socialists
+      \endverb
+    \endentry
+    \entry{VelasquezVillalba2022}{article}{}{}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=a26f63668c1cb0ea6fa9a530b30632b7}{%
+           family={Velásquez\bibnamedelima Villalba},
+           familyi={V\bibinitperiod\bibinitdelim V\bibinitperiod},
+           given={Fernando},
+           giveni={F\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{1}{%
+        {Universidad de Buenos Aires}%
+      }
+      \strng{namehash}{a26f63668c1cb0ea6fa9a530b30632b7}
+      \strng{fullhash}{a26f63668c1cb0ea6fa9a530b30632b7}
+      \strng{fullhashraw}{a26f63668c1cb0ea6fa9a530b30632b7}
+      \strng{bibnamehash}{a26f63668c1cb0ea6fa9a530b30632b7}
+      \strng{authorbibnamehash}{a26f63668c1cb0ea6fa9a530b30632b7}
+      \strng{authornamehash}{a26f63668c1cb0ea6fa9a530b30632b7}
+      \strng{authorfullhash}{a26f63668c1cb0ea6fa9a530b30632b7}
+      \strng{authorfullhashraw}{a26f63668c1cb0ea6fa9a530b30632b7}
+      \field{sortinit}{V}
+      \field{sortinithash}{afb52128e5b4dc4b843768c0113d673b}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{issn}{1666-9606}
+      \field{journaltitle}{e-l@tina. Revista electrónica de estudios latinoamericanos}
+      \field{number}{80}
+      \field{title}{De las batallas por la memoria a la marca del conflicto: ``terruqueo'', estigmatización y violencia en el Perú reciente}
+      \field{volume}{20}
+      \field{year}{2022}
+      \verb{urlraw}
+      \verb https://www.redalyc.org/articulo.oa?id=496470836005
+      \endverb
+      \verb{url}
+      \verb https://www.redalyc.org/articulo.oa?id=496470836005
       \endverb
     \endentry
   \enddatalist
