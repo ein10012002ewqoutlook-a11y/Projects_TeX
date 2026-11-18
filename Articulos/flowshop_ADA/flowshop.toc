@@ -1,0 +1,34 @@
+\babel@toc {spanish}{}\relax 
+\contentsline {section}{Programación de líneas de producción: flow shop permutacional ($F\,\|\,C_{\mathop {\mathgroup \symoperators m\acute {a}x}}$)}{5}{section*.1}%
+\contentsline {subsection}{Introducción}{5}{subsection*.2}%
+\contentsline {subsection}{Marco conceptual}{6}{subsection*.3}%
+\contentsline {subsubsection}{Líneas de producción y flow shop}{6}{subsubsection*.4}%
+\contentsline {subsubsection}{Notación de tres campos}{6}{subsubsection*.7}%
+\contentsline {subsubsection}{Supuestos del problema}{7}{subsubsection*.9}%
+\contentsline {subsection}{Formulación matemática}{8}{subsection*.10}%
+\contentsline {subsubsection}{Cálculo del makespan}{8}{subsubsection*.11}%
+\contentsline {subsubsection}{Modelo de programación lineal entera mixta}{8}{subsubsection*.13}%
+\contentsline {subsubsection}{Espacio de soluciones}{9}{subsubsection*.14}%
+\contentsline {subsection}{Complejidad computacional}{10}{subsection*.16}%
+\contentsline {subsection}{Métodos de solución}{10}{subsection*.17}%
+\contentsline {subsubsection}{Método exacto para dos máquinas: regla de Johnson}{10}{subsubsection*.18}%
+\contentsline {subsubsection}{Cotas inferiores}{11}{subsubsection*.19}%
+\contentsline {subsubsection}{Heurísticas constructivas}{11}{subsubsection*.20}%
+\contentsline {paragraph}{Índice de pendiente de Palmer.}{11}{paragraph*.21}%
+\contentsline {paragraph}{CDS.}{12}{paragraph*.22}%
+\contentsline {paragraph}{NEH.}{12}{paragraph*.23}%
+\contentsline {subsubsection}{Metaheurísticas}{12}{subsubsection*.24}%
+\contentsline {subsection}{Ejemplos numéricos}{13}{subsection*.26}%
+\contentsline {subsubsection}{Dos máquinas: regla de Johnson}{13}{subsubsection*.27}%
+\contentsline {subsubsection}{Cuatro máquinas: Palmer, CDS y NEH}{15}{subsubsection*.30}%
+\contentsline {paragraph}{NEH.}{15}{paragraph*.32}%
+\contentsline {paragraph}{Palmer y CDS.}{17}{paragraph*.35}%
+\contentsline {paragraph}{Comparación.}{17}{paragraph*.36}%
+\contentsline {subsection}{Evaluación experimental}{19}{subsection*.39}%
+\contentsline {subsubsection}{Instancias de referencia}{19}{subsubsection*.40}%
+\contentsline {subsubsection}{Métricas}{19}{subsubsection*.42}%
+\contentsline {subsection}{Discusión}{20}{subsection*.43}%
+\contentsline {subsection}{Conclusiones}{20}{subsection*.44}%
+\contentsline {section}{Referencias}{21}{section*.45}%
+\contentsline {section}{Apéndice}{24}{section*.46}%
+\contentsline {subsection}{Código en Python del ejemplo numérico}{24}{subsection*.47}%

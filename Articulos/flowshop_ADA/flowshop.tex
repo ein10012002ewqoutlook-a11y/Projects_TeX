@@ -1,0 +1,951 @@
+%% =============================================================================
+%% flowshop.tex
+%% Programación de líneas de producción: Flow shop permutacional (F||Cmax)
+%% Formato APA 7.ª edición (bibliografía manual con \begin{thebibliography}-like)
+%% Compilar con:  pdflatex flowshop.tex  (dos veces)
+%%
+%% FIGURAS (carpeta fig/ junto a este archivo):
+%%   - Las figuras 3, 5, 6 y 7 se generan con:  python3 generar_figuras.py
+%%   - Las figuras 1 y 4 están dibujadas en TikZ dentro de este archivo.
+%%   - La figura 2 (fotografía real) debe descargarse de Wikimedia Commons;
+%%     ver las instrucciones en el recuadro [FIGURA PENDIENTE] que aparece en el PDF.
+%% Si falta algún archivo de imagen, el documento compila igual y muestra un
+%% recuadro indicando de dónde obtenerlo.
+%% =============================================================================
+\documentclass[12pt,letterpaper]{article}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{mathptmx}                      % Times (APA 7 admite Times New Roman 12 pt)
+\usepackage[spanish,es-tabla]{babel}       %BABEL
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{graphicx}
+\usepackage{booktabs,array,multirow,tabularx}
+\usepackage{setspace}
+\usepackage{etoolbox}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage{csquotes}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,positioning,babel}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{listings}
+\usepackage{caption}
+\usepackage{titlesec}
+\usepackage{fancyhdr}
+\usepackage[hidelinks]{hyperref}
+
+\hypersetup{pdftitle={Programación de líneas de producción: flow shop permutacional (F||Cmax)},
+            pdfauthor={Camile}}
+
+% ---------- Nombres en español -----------------------------------------------
+\addto\captionsspanish{%                                                       %BABEL
+  \renewcommand{\contentsname}{Índice}%                                        %BABEL
+  \renewcommand{\listfigurename}{Lista de figuras}%                            %BABEL
+  \renewcommand{\listtablename}{Lista de tablas}%                              %BABEL
+  \renewcommand{\refname}{Referencias}%                                        %BABEL
+  \renewcommand{\abstractname}{Resumen}}                                       %BABEL
+\floatname{algorithm}{Algoritmo}
+
+% ---------- Formato APA 7 ----------------------------------------------------
+\setlength{\parindent}{0.5in}
+\setlength{\parskip}{0pt}
+\doublespacing
+\setlist{itemsep=0pt,topsep=0pt,parsep=0pt}
+\setcounter{secnumdepth}{0}                % APA: encabezados sin numeración
+\setcounter{tocdepth}{2}
+
+\titleformat{\section}{\normalfont\bfseries\centering}{}{0pt}{}
+\titleformat{\subsection}{\normalfont\bfseries}{}{0pt}{}
+\titleformat{\subsubsection}{\normalfont\bfseries\itshape}{}{0pt}{}
+\titlespacing*{\section}{0pt}{0pt}{0pt}
+\titlespacing*{\subsection}{0pt}{0pt}{0pt}
+\titlespacing*{\subsubsection}{0pt}{0pt}{0pt}
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[R]{\thepage}
+\renewcommand{\headrulewidth}{0pt}
+\setlength{\headheight}{15pt}
+
+\captionsetup{labelfont=bf,textfont=it,labelsep=newline,singlelinecheck=false,
+              justification=raggedright,font=normalsize,skip=6pt}
+\AtBeginEnvironment{table}{\singlespacing}
+\AtBeginEnvironment{figure}{\singlespacing}
+\AtBeginEnvironment{algorithm}{\singlespacing}
+
+% Traducción del pseudocódigo
+\algrenewcommand\algorithmicrequire{\textbf{Entrada:}}
+\algrenewcommand\algorithmicensure{\textbf{Salida:}}
+\algrenewcommand\algorithmicfor{\textbf{para}}
+\algrenewcommand\algorithmicdo{\textbf{hacer}}
+\algrenewcommand\algorithmicwhile{\textbf{mientras}}
+\algrenewcommand\algorithmicif{\textbf{si}}
+\algrenewcommand\algorithmicthen{\textbf{entonces}}
+\algrenewcommand\algorithmicelse{\textbf{si no}}
+\algrenewcommand\algorithmicreturn{\textbf{devolver}}
+\algrenewcommand\algorithmicend{\textbf{fin}}
+
+\lstset{language=Python,basicstyle=\ttfamily\footnotesize,breaklines=true,
+        frame=single,numbers=left,numberstyle=\tiny,xleftmargin=1.5em,
+        keywordstyle=\bfseries,commentstyle=\itshape}
+
+% ---------- Macros propias ---------------------------------------------------
+\newcommand{\relleno}[1]{\textcolor{red}{[#1]}}
+\newcommand{\Cmax}{C_{\max}}
+% Nota de tabla/figura (APA)
+\newcommand{\nota}[1]{\par\vspace{3pt}\noindent{\singlespacing\small\textit{Nota.} #1\par}}
+% Incluye la imagen si existe; si no, muestra un recuadro con instrucciones
+\newcommand{\imagenopcional}[3]{%
+  \IfFileExists{#1}{\includegraphics[width=#2\textwidth]{#1}}{%
+    \fbox{\parbox{0.92\textwidth}{\singlespacing\small\textbf{[FIGURA PENDIENTE]} #3}}}}
+
+\begin{document}
+
+% =============================================================================
+% PORTADA
+% =============================================================================
+\thispagestyle{fancy}
+\begin{center}
+\vspace*{1.2in}
+{\bfseries Programación de líneas de producción:\\
+Flow shop permutacional ($F\,\|\,\Cmax$)}\\[2\baselineskip]
+\relleno{Nombres y apellidos del autor}\\[0.5\baselineskip]
+Escuela Profesional de Ingeniería de Sistemas\\
+Facultad de Ingeniería de Producción y Servicios\\
+Universidad Nacional de San Agustín de Arequipa\\[0.5\baselineskip]
+\relleno{Nombre y código del curso}\\
+\relleno{Docente del curso}\\
+18 de noviembre de 2026
+\end{center}
+\newpage
+
+% =============================================================================
+% RESUMEN
+% =============================================================================
+\begin{center}\textbf{Resumen}\end{center}
+\noindent
+El flow shop permutacional con minimización del tiempo total de finalización
+(\textit{makespan}), denotado $Fm\,|\,prmu\,|\,\Cmax$, es uno de los problemas
+clásicos de la programación de la producción en líneas donde todos los trabajos
+visitan las mismas máquinas en el mismo orden. Este informe revisa su
+formulación matemática, su complejidad computacional y los principales métodos de
+solución: la regla de Johnson (óptima para dos máquinas), las heurísticas
+constructivas de Palmer, Campbell--Dudek--Smith (CDS) y Nawaz--Enscore--Ham
+(NEH), y las metaheurísticas basadas en búsqueda tabú, recocido simulado y
+\textit{iterated greedy}. Se presenta además un ejemplo numérico de cinco
+trabajos y cuatro máquinas, verificado mediante enumeración exhaustiva, y se
+describen los \textit{benchmarks} de Taillard y las métricas habituales de
+evaluación. La literatura revisada muestra que el problema es NP-difícil para tres
+o más máquinas, que NEH continúa siendo la referencia constructiva y que los
+algoritmos de tipo \textit{iterated greedy} ofrecen una relación muy favorable
+entre simplicidad y calidad de solución.
+
+\noindent\textit{Palabras clave:} programación de la producción, flow shop
+permutacional, makespan, regla de Johnson, heurística NEH, \textit{iterated greedy}.
+
+\bigskip
+\begin{center}\textbf{Abstract}\end{center}
+\noindent
+The permutation flow shop with makespan minimization, denoted
+$Fm\,|\,prmu\,|\,\Cmax$, is a classical production scheduling problem in which every
+job visits the same machines in the same order. This report reviews its
+mathematical formulation, computational complexity and main solution methods:
+Johnson's rule (optimal for two machines), the constructive heuristics of Palmer,
+Campbell--Dudek--Smith (CDS) and Nawaz--Enscore--Ham (NEH), and metaheuristics based
+on tabu search, simulated annealing and iterated greedy. A worked example with five
+jobs and four machines, verified by exhaustive enumeration, is included, together
+with Taillard's benchmarks and the usual evaluation metrics. The reviewed literature
+shows that the problem is NP-hard for three or more machines, that NEH remains the
+constructive reference, and that iterated greedy algorithms offer an excellent
+trade-off between simplicity and solution quality.
+
+\noindent\textit{Keywords:} production scheduling, permutation flow shop, makespan,
+Johnson's rule, NEH heuristic, iterated greedy.
+\newpage
+
+% =============================================================================
+% ÍNDICES
+% =============================================================================
+{\singlespacing
+\tableofcontents
+\listoffigures
+\listoftables}
+\newpage
+
+% =============================================================================
+% INTRODUCCIÓN
+% =============================================================================
+\section{Programación de líneas de producción: flow shop permutacional ($F\,\|\,\Cmax$)}
+
+\subsection{Introducción}
+
+La programación de la producción consiste en asignar trabajos a recursos
+(máquinas, estaciones o puestos) a lo largo del tiempo, de modo que se optimice
+algún criterio de desempeño como la duración total, el tiempo de flujo o el
+cumplimiento de fechas de entrega (Pinedo, 2016). En las líneas de producción,
+donde los productos recorren una serie de estaciones dispuestas en el mismo
+orden, el modelo natural es el \textit{flow shop}, también llamado taller de flujo
+o de flujo continuo. Hejazi y Saghafian (2005) lo describen como uno de los
+problemas más estudiados de la programación y recopilan las contribuciones
+desde el trabajo pionero de Johnson (1954) hasta las metaheurísticas de comienzos
+de la década de 2000.
+
+El interés por este problema es tanto práctico como teórico. Desde el punto de
+vista práctico, muchas instalaciones reales se parecen a un flow shop, de modo que
+una buena secuencia de trabajos reduce el tiempo total de la jornada, el trabajo
+en proceso y los tiempos ociosos de las máquinas. Desde el punto de vista teórico,
+el problema combina una definición muy simple con una dificultad computacional
+considerable: para tres o más máquinas no se conoce ningún algoritmo polinomial
+que garantice el óptimo (Garey et al., 1976). Una revisión sistemática reciente
+sobre flow shops permutacionales encontró que alrededor del 56\,\% de los estudios
+analizados optimizan el \textit{makespan}, frente a un 18\,\% de estudios
+multiobjetivo y un 15\,\% centrados en el tiempo total de flujo (Koç y Güner, 2023).
+
+El presente informe tiene como objetivo describir y analizar el problema de flow
+shop permutacional con minimización del makespan, $F\,\|\,\Cmax$ en la notación de
+Taillard (1993) y $Fm\,|\,prmu\,|\,\Cmax$ en la notación de tres campos. Para ello se
+presentan: (a) el marco conceptual y los supuestos; (b) la formulación matemática;
+(c) su complejidad computacional; (d) los métodos de solución exactos, heurísticos
+y metaheurísticos; (e) un ejemplo numérico reproducible; y (f) los \textit{benchmarks}
+y métricas de evaluación empleados en la literatura.
+
+% =============================================================================
+\subsection{Marco conceptual}
+
+\subsubsection{Líneas de producción y flow shop}
+
+En un flow shop, un conjunto de $n$ trabajos debe procesarse en $m$ máquinas
+dispuestas en serie. Todos los trabajos siguen la misma ruta tecnológica
+$M_1 \rightarrow M_2 \rightarrow \cdots \rightarrow M_m$, y cada operación del trabajo
+$j$ en la máquina $i$ tiene una duración $p_{ji}$ (ver Figura~\ref{fig:esquema}).
+Es un caso particular del \textit{job shop}, en el que las rutas pueden diferir
+entre trabajos (Wikipedia, s. f.; Pinedo, 2016).
+
+\begin{figure}[htbp]
+\caption{Esquema de un flow shop con $m$ máquinas en serie}\label{fig:esquema}
+\centering
+% Figura 1: dibujada en TikZ (no requiere archivo externo).
+\begin{tikzpicture}[>=Stealth,
+  maq/.style={draw,rounded corners=2pt,minimum width=1.3cm,minimum height=0.9cm,fill=gray!15},
+  lab/.style={font=\scriptsize}]
+  \node (in) {Trabajos};
+  \node[maq,right=1.0cm of in] (m1) {$M_1$};
+  \node[maq,right=1.5cm of m1] (m2) {$M_2$};
+  \node[right=1.0cm of m2] (dots) {$\cdots$};
+  \node[maq,right=1.0cm of dots] (mm) {$M_m$};
+  \node[right=1.0cm of mm] (out) {Terminados};
+  \draw[->] (in) -- (m1);
+  \draw[->] (m1) -- node[above,lab]{cola} (m2);
+  \draw[->] (m2) -- (dots);
+  \draw[->] (dots) -- (mm);
+  \draw[->] (mm) -- (out);
+\end{tikzpicture}
+\nota{Elaboración propia. Cada trabajo visita las máquinas en el orden
+$M_1,\ldots,M_m$; entre máquinas existe espacio de espera (\textit{buffer}) ilimitado.}
+\end{figure}
+
+\begin{figure}[htbp]
+\caption{Línea de producción real como ejemplo de flow shop}\label{fig:foto}
+\centering
+\imagenopcional{fig/linea_produccion.jpg}{0.7}{%
+Descargar una fotografía de una línea de producción/ensamblaje desde Wikimedia
+Commons (por ejemplo, en la categoría \url{https://commons.wikimedia.org/wiki/Category:Assembly_lines}),
+elegir una con licencia libre (CC BY, CC BY-SA o dominio público), guardarla como
+\texttt{fig/linea\_produccion.jpg} y completar la nota con autor, año y licencia.
+(Categoría sugerida; verifique que el enlace y la licencia estén vigentes.)}
+\nota{Fotografía de \relleno{Autor}, \relleno{año}, Wikimedia Commons, \relleno{licencia}.
+\relleno{URL del archivo}.}
+\end{figure}
+
+\subsubsection{Notación de tres campos}
+
+Los problemas de programación se clasifican con la notación $\alpha\,|\,\beta\,|\,\gamma$
+de Graham et al. (1979), donde $\alpha$ describe el entorno de máquinas, $\beta$ las
+restricciones y $\gamma$ el criterio. En este informe, $\alpha = Fm$ (flow shop con
+$m$ máquinas), $\beta = prmu$ (secuencia permutacional, es decir, el mismo orden de
+trabajos en todas las máquinas) y $\gamma = \Cmax$ (tiempo máximo de finalización).
+Taillard (1993) abrevia el problema como $F\,\|\,\Cmax$, y Fernandez-Viagas et al.
+(2017) lo denotan $Fm\,|\,prmu\,|\,\Cmax$. La Tabla~\ref{tab:notacion} resume los símbolos
+usados en el informe.
+
+\begin{table}[htbp]
+\caption{Notación utilizada}\label{tab:notacion}
+\centering
+\begin{tabularx}{\textwidth}{@{}l X@{}}
+\toprule
+Símbolo & Significado \\
+\midrule
+$n$, $m$ & Número de trabajos y de máquinas \\
+$j = 1,\ldots,n$;\; $i = 1,\ldots,m$ & Índices de trabajo y de máquina \\
+$p_{ji}$ & Tiempo de procesamiento del trabajo $j$ en la máquina $i$ \\
+$\pi = (\pi(1),\ldots,\pi(n))$ & Permutación (secuencia) de los trabajos \\
+$C_{\pi(k),i}$ & Tiempo de finalización del $k$-ésimo trabajo de $\pi$ en la máquina $i$ \\
+$\Cmax$ & \textit{Makespan}: $C_{\pi(n),m}$ \\
+$T_j$ & Tiempo total de procesamiento del trabajo $j$: $\sum_{i=1}^m p_{ji}$ \\
+\bottomrule
+\end{tabularx}
+\nota{Elaboración propia.}
+\end{table}
+
+\subsubsection{Supuestos del problema}
+
+El problema clásico $Fm\,|\,prmu\,|\,\Cmax$ se plantea bajo los siguientes supuestos:
+\begin{itemize}
+  \item Los $n$ trabajos están disponibles en el instante cero y todas las máquinas
+        están libres.
+  \item Cada trabajo visita las máquinas $M_1,\ldots,M_m$ en ese orden y no puede
+        saltarse ninguna.
+  \item Los tiempos $p_{ji}\ge 0$ son deterministas, conocidos e independientes de la
+        secuencia (no hay tiempos de preparación dependientes de la secuencia).
+  \item Una máquina procesa un solo trabajo a la vez y un trabajo es procesado por una
+        sola máquina a la vez.
+  \item No se permiten interrupciones (no hay \textit{preemption}).
+  \item El espacio de espera entre máquinas es ilimitado.
+  \item La secuencia de trabajos es la misma en todas las máquinas (restricción
+        permutacional).
+\end{itemize}
+Variantes con \textit{no-wait}, bloqueo o tiempos de preparación se estudian por
+separado (Hejazi y Saghafian, 2005; Ruiz y Stützle, 2008), y las versiones flexibles,
+híbridas o distribuidas quedan fuera del alcance de este informe (Koç y Güner, 2023).
+
+% =============================================================================
+\subsection{Formulación matemática}
+
+\subsubsection{Cálculo del makespan}
+
+Dada una permutación $\pi$, los tiempos de finalización se calculan con la
+recurrencia
+\begin{equation}\label{eq:rec}
+C_{\pi(k),i} = \max\bigl\{C_{\pi(k-1),i},\; C_{\pi(k),i-1}\bigr\} + p_{\pi(k),i},
+\end{equation}
+con $C_{\pi(0),i}=0$ y $C_{\pi(k),0}=0$. El makespan es $\Cmax(\pi)=C_{\pi(n),m}$. La
+primera cantidad del máximo refleja que la máquina $i$ debe haber terminado el trabajo
+anterior y la segunda, que el trabajo debe haber terminado en la máquina previa. Evaluar
+una secuencia completa cuesta $O(nm)$ operaciones.
+
+Equivalentemente, $\Cmax(\pi)$ es la longitud del camino más largo (camino crítico)
+en un grafo de rejilla de $n\times m$ nodos, donde el nodo $(k,i)$ tiene peso
+$p_{\pi(k),i}$ y los arcos van de $(k,i)$ hacia $(k+1,i)$ y hacia $(k,i+1)$
+(ver Figura~\ref{fig:grafo}).
+
+\begin{figure}[htbp]
+\caption{Makespan como camino más largo en un grafo de rejilla}\label{fig:grafo}
+\centering
+% Figura 4: dibujada en TikZ (no requiere archivo externo).
+\begin{tikzpicture}[x=2.4cm,y=-1.3cm,
+  nodo/.style={draw,circle,minimum size=1.1cm,inner sep=0pt,font=\footnotesize},
+  arco/.style={-{Stealth[length=2mm]},gray},
+  crit/.style={-{Stealth[length=2.4mm]},line width=1.6pt,black}]
+  \foreach \k in {1,2,3}{
+    \node[font=\footnotesize] at (\k,0.1) {$k=\k$};
+    \foreach \i in {1,2,3}{
+      \node[nodo] (n\k\i) at (\k,\i) {$p_{\pi(\k),\i}$};
+    }
+  }
+  \foreach \i in {1,2,3}{ \node[font=\footnotesize,anchor=east] at (0.55,\i) {$M_\i$}; }
+  \foreach \k/\kn in {1/2,2/3}{\foreach \i in {1,2,3}{\draw[arco] (n\k\i) -- (n\kn\i);}}
+  \foreach \k in {1,2,3}{\foreach \i/\ii in {1/2,2/3}{\draw[arco] (n\k\i) -- (n\k\ii);}}
+  \draw[crit] (n11) -- (n21);
+  \draw[crit] (n21) -- (n22);
+  \draw[crit] (n22) -- (n23);
+  \draw[crit] (n23) -- (n33);
+\end{tikzpicture}
+\nota{Elaboración propia. Ejemplo con $n=3$ y $m=3$; el trazo grueso indica un camino
+crítico posible, cuya suma de pesos es $\Cmax$.}
+\end{figure}
+
+\subsubsection{Modelo de programación lineal entera mixta}
+
+Una formulación posicional estándar emplea variables binarias $x_{jk}=1$ si el trabajo
+$j$ ocupa la posición $k$ de la secuencia, y variables continuas $C_{k,i}$ con el tiempo
+de finalización del trabajo situado en la posición $k$ en la máquina $i$:
+\begin{align}
+\min\;& \Cmax \label{eq:obj}\\
+\text{s.a.}\;& \sum_{k=1}^{n} x_{jk} = 1, && j=1,\ldots,n, \label{eq:asig1}\\
+& \sum_{j=1}^{n} x_{jk} = 1, && k=1,\ldots,n, \label{eq:asig2}\\
+& C_{1,1} \ge \sum_{j=1}^{n} p_{j1}\,x_{j1}, \label{eq:ini}\\
+& C_{k,i} \ge C_{k,i-1} + \sum_{j=1}^{n} p_{ji}\,x_{jk}, && k=1,\ldots,n;\; i=2,\ldots,m, \label{eq:maq}\\
+& C_{k,i} \ge C_{k-1,i} + \sum_{j=1}^{n} p_{ji}\,x_{jk}, && k=2,\ldots,n;\; i=1,\ldots,m, \label{eq:pos}\\
+& \Cmax \ge C_{n,m}, \qquad x_{jk}\in\{0,1\},\; C_{k,i}\ge 0. \label{eq:dom}
+\end{align}
+Las restricciones \eqref{eq:asig1}--\eqref{eq:asig2} garantizan que la secuencia sea una
+permutación, y \eqref{eq:maq}--\eqref{eq:pos} reproducen la recurrencia \eqref{eq:rec}. La
+programación lineal entera mixta es el enfoque de modelado más frecuente en la
+literatura reciente, con un 67\,\% de los artículos que especifican un modelo, y
+CPLEX fue el único \textit{solver} reportado en esa revisión (Koç y Güner, 2023).
+Sin embargo, estos modelos solo resuelven instancias pequeñas o medianas, lo que
+motiva el uso de heurísticas.
+
+\subsubsection{Espacio de soluciones}
+
+En un flow shop general, cada máquina podría procesar los trabajos en un orden distinto,
+por lo que existen $(n!)^m$ programas posibles; restringirse a permutaciones reduce el
+espacio a $n!$ secuencias (Hejazi y Saghafian, 2005). Para el criterio $\Cmax$ se sabe
+que existe siempre una solución óptima con la misma secuencia en las dos primeras
+máquinas y en las dos últimas, de modo que para $m\le 3$ las permutaciones son
+suficientes (Pinedo, 2016). Para $m>3$ el óptimo permutacional puede ser peor que el
+óptimo general, pero la mayor parte de la investigación se concentra en el caso
+permutacional por su menor tamaño y su relevancia práctica (Hejazi y Saghafian, 2005).
+
+Aun así, $n!$ crece muy rápido: con $n=20$ trabajos hay aproximadamente
+$2{,}43\times 10^{18}$ secuencias, de modo que la enumeración completa es inviable
+(ver Figura~\ref{fig:espacio}).
+
+\begin{figure}[htbp]
+\caption{Tamaño del espacio de búsqueda según el número de trabajos}\label{fig:espacio}
+\centering
+\imagenopcional{fig/espacio_busqueda.png}{0.75}{%
+Generar con el script \texttt{generar\_figuras.py} (Python 3 + matplotlib):
+\texttt{pip install matplotlib \&\& python3 generar\_figuras.py}. Crea
+\texttt{fig/espacio\_busqueda.png}.}
+\nota{Elaboración propia. Escala logarítmica; $m$ es el número de máquinas del caso general.}
+\end{figure}
+
+% =============================================================================
+\subsection{Complejidad computacional}
+
+Garey et al. (1976) demostraron que determinar un programa de longitud mínima en un flow
+shop de $m$ máquinas es NP-completo para $m\ge 3$, mientras que para $m=2$ existe un
+algoritmo eficiente; sus resultados son fuertes, es decir, valen aunque el tamaño del
+problema se mida por el número de tareas o por la suma de sus duraciones. Gonzalez y Sahni
+(1978) mostraron que obtener programas de finalización mínima en flow shops y job shops
+es NP-completo tanto con interrupciones como sin ellas, y obtuvieron cotas de desempeño
+para varias heurísticas. En consecuencia, $F2\,|\,prmu\,|\,\Cmax$ se resuelve en tiempo
+$O(n\log n)$ mediante la regla de Johnson (1954), pero para $m\ge 3$ no se conoce un
+algoritmo que garantice el óptimo en tiempo polinomial, y la investigación se ha
+orientado hacia heurísticas y metaheurísticas (Framiñán et al., 2004).
+
+% =============================================================================
+\subsection{Métodos de solución}
+
+\subsubsection{Método exacto para dos máquinas: regla de Johnson}
+
+Johnson (1954) demostró que, para dos máquinas, existe una secuencia óptima en la que el
+trabajo $j$ precede al trabajo $k$ si $\min\{p_{j1},p_{k2}\} \le \min\{p_{k1},p_{j2}\}$.
+El Algoritmo~\ref{alg:johnson} construye esa secuencia en $O(n\log n)$: los trabajos
+cuya primera operación es la más corta van primero, en orden creciente de $p_{j1}$, y los
+demás van al final, en orden decreciente de $p_{j2}$.
+
+\begin{algorithm}[htbp]
+\caption{Regla de Johnson para $F2\,|\,prmu\,|\,\Cmax$}\label{alg:johnson}
+\begin{algorithmic}[1]
+\Require Tiempos $p_{j1}$ y $p_{j2}$ de los $n$ trabajos
+\State $A \gets \{j : p_{j1} \le p_{j2}\}$;\quad $B \gets \{j : p_{j1} > p_{j2}\}$
+\State Ordenar $A$ de forma creciente según $p_{j1}$
+\State Ordenar $B$ de forma decreciente según $p_{j2}$
+\State \Return $\pi = (A, B)$
+\end{algorithmic}
+\end{algorithm}
+
+Johnson (1954) también estudió el caso de tres máquinas: si $\min_j p_{j1}\ge\max_j p_{j2}$
+o $\min_j p_{j3}\ge\max_j p_{j2}$, la secuencia óptima se obtiene aplicando la regla a los
+tiempos agregados $(p_{j1}+p_{j2},\;p_{j2}+p_{j3})$.
+
+\subsubsection{Cotas inferiores}
+
+Una cota inferior sencilla se obtiene analizando cada máquina $k$ por separado: ningún
+programa puede terminar antes de que la máquina $k$ procese todos los trabajos, precedida
+por el menor tiempo de llegada posible y seguida por la menor cola posible,
+\begin{equation}\label{eq:lb}
+LB = \max_{k=1,\ldots,m}\Bigl\{\min_j \sum_{i<k} p_{ji} \;+\; \sum_{j=1}^{n} p_{jk} \;+\; \min_j \sum_{i>k} p_{ji}\Bigr\}.
+\end{equation}
+Estas cotas son la base de los algoritmos de ramificación y acotamiento, que según Koç y
+Güner (2023) son la técnica exacta dominante en la literatura permutacional y se emplean
+también para medir la calidad de las heurísticas.
+
+\subsubsection{Heurísticas constructivas}
+
+Framiñán et al. (2004) revisaron y clasificaron las heurísticas para el flow shop
+permutacional con objetivo $\Cmax$ y propusieron un marco común en fases (generación de
+un índice de prioridad, construcción de la solución y mejora), de modo que sea posible
+combinarlas y extenderlas. Las tres más conocidas son las siguientes.
+
+\paragraph{Índice de pendiente de Palmer.} Palmer (1965) asigna a cada trabajo el índice
+$s_j=\sum_{i=1}^{m}(2i-m-1)\,p_{ji}$, que es mayor para trabajos con tiempos crecientes a
+lo largo de la línea, y ordena los trabajos por $s_j$ no creciente. Su costo es
+$O(nm+n\log n)$.
+
+\paragraph{CDS.} Campbell et al. (1970) generalizan la regla de Johnson: para
+$k=1,\ldots,m-1$ construyen un problema de dos máquinas con tiempos
+$p'_{j1}=\sum_{i=1}^{k}p_{ji}$ y $p'_{j2}=\sum_{i=m-k+1}^{m}p_{ji}$, lo resuelven con la regla
+de Johnson y conservan la mejor de las $m-1$ secuencias según su makespan real.
+
+\paragraph{NEH.} Nawaz et al. (1983) parten de la idea de que los trabajos con mayor tiempo
+total de procesamiento deben recibir mayor prioridad; el algoritmo se resume en el
+Algoritmo~\ref{alg:neh}. Los autores informaron que el método produce muy buenas secuencias
+frente a otras heurísticas, con especial buen desempeño en problemas grandes (Nawaz et al.,
+1983). Taillard (1990) mostró que la evaluación de las $k$ posiciones de inserción puede
+hacerse en $O(nm)$ en total mediante cabezas $e_{l,i}$, colas $q_{l,i}$ y
+$f_{l,i}=\max\{f_{l,i-1},e_{l-1,i}\}+p_{j,i}$, de modo que
+$\Cmax$ al insertar $j$ en la posición $l$ es $\max_i\{f_{l,i}+q_{l,i}\}$; así, NEH pasa de
+$O(n^3m)$ a $O(n^2m)$. NEH se considera todavía hoy la heurística de referencia del problema
+(Fernandez-Viagas et al., 2017; Kalczynski y Kamburowski, 2007), y fue la heurística más
+usada en los estudios revisados por Koç y Güner (2023). Framiñán et al. (2003) estudiaron
+órdenes iniciales alternativos para NEH, y Ruiz y Maroto (2005) la incluyeron como
+referencia en su evaluación comparativa de heurísticas permutacionales.
+
+\begin{algorithm}[htbp]
+\caption{Heurística NEH}\label{alg:neh}
+\begin{algorithmic}[1]
+\Require Matriz de tiempos $p_{ji}$
+\State $T_j \gets \sum_{i=1}^m p_{ji}$ para todo $j$
+\State Ordenar los trabajos de forma no creciente según $T_j$: $(\sigma_1,\ldots,\sigma_n)$
+\State $\pi \gets (\sigma_1)$
+\For{$k = 2,\ldots,n$}
+  \State Insertar $\sigma_k$ en cada una de las $k$ posiciones de $\pi$ y calcular $\Cmax$
+  \State $\pi \gets$ la secuencia parcial con menor $\Cmax$ (empates: primera posición)
+\EndFor
+\State \Return $\pi$
+\end{algorithmic}
+\end{algorithm}
+
+\subsubsection{Metaheurísticas}
+
+Las metaheurísticas parten de una solución inicial (típicamente la de NEH) y la mejoran
+mediante búsqueda local guiada. Osman y Potts (1989) aplicaron recocido simulado al flow
+shop permutacional, y Taillard (1990) y Nowicki y Smutnicki (1996) propusieron algoritmos
+de búsqueda tabú; este último se presenta como un algoritmo rápido para el problema. Los
+algoritmos genéticos y los híbridos con heurísticas constructivas también son frecuentes:
+Bari y Karande (2023) propusieron un algoritmo genético cuya población inicial se siembra
+con secuencias de Palmer, CDS, NEH y PSO, y lo aplicaron a datos de una siderúrgica; en
+su caso de estudio redujeron el makespan en alrededor de un 16\,\% respecto a la regla
+de atender por orden de llegada de la empresa, aunque igualaron el resultado de NEH en ese
+caso. En la revisión de Koç y Güner (2023), las metaheurísticas fueron el enfoque de
+solución más común (68\,\% de los artículos), seguidas de las heurísticas (21\,\%) y los
+métodos exactos (6\,\%).
+
+Entre todas ellas destaca el algoritmo \textit{iterated greedy} (IG) de Ruiz y Stützle
+(2007), que alterna una fase de destrucción, en la que se eliminan $d$ trabajos de la
+solución actual, con una fase de construcción, en la que se reinsertan usando el
+procedimiento de inserción de NEH, y que opcionalmente aplica una búsqueda local posterior.
+Los autores reportan que es muy simple de implementar y altamente eficaz frente a los
+métodos del estado del arte de su momento. El Algoritmo~\ref{alg:ig} resume su esquema;
+en el trabajo original se emplea una temperatura constante
+$T=T_p\cdot\sum_{j}\sum_{i}p_{ji}\,/\,(10\,nm)$ con $d=4$ y $T_p=0.4$ como valores
+recomendados. Posteriormente, Dubois-Lacoste et al. (2017) propusieron una variante de
+IG que optimiza soluciones parciales para el mismo problema.
+
+\begin{algorithm}[htbp]
+\caption{Esquema del algoritmo \textit{iterated greedy} (IG)}\label{alg:ig}
+\begin{algorithmic}[1]
+\Require Matriz $p_{ji}$, tamaño de destrucción $d$, temperatura $T$
+\State $\pi \gets \text{NEH}(p)$;\quad $\pi^{*} \gets \pi$
+\While{no se cumpla el criterio de parada}
+  \State $\pi' \gets \pi$;\quad eliminar $d$ trabajos al azar de $\pi'$ (lista $D$)
+  \For{cada trabajo $j \in D$}
+    \State insertar $j$ en la posición de $\pi'$ que minimiza $\Cmax$
+  \EndFor
+  \State (opcional) aplicar búsqueda local por inserción a $\pi'$
+  \If{$\Cmax(\pi') < \Cmax(\pi)$}
+    \State $\pi \gets \pi'$;\quad \If{$\Cmax(\pi') < \Cmax(\pi^{*})$} $\pi^{*}\gets\pi'$ \EndIf
+  \ElsIf{$\text{aleatorio}(0,1) \le \exp\bigl(-(\Cmax(\pi')-\Cmax(\pi))/T\bigr)$}
+    \State $\pi \gets \pi'$
+  \EndIf
+\EndWhile
+\State \Return $\pi^{*}$
+\end{algorithmic}
+\end{algorithm}
+
+La Tabla~\ref{tab:metodos} resume los métodos presentados.
+
+\begin{table}[htbp]
+\caption{Resumen de los principales métodos para $Fm\,|\,prmu\,|\,\Cmax$}\label{tab:metodos}
+\centering
+\small
+\begin{tabularx}{\textwidth}{@{}l l l X@{}}
+\toprule
+Método & Año & Tipo & Característica principal \\
+\midrule
+Regla de Johnson & 1954 & Exacto ($m=2$) & $O(n\log n)$; óptimo para dos máquinas \\
+Palmer & 1965 & Constructivo & Índice de pendiente; $O(nm+n\log n)$ \\
+CDS & 1970 & Constructivo & $m-1$ problemas de dos máquinas resueltos con Johnson \\
+NEH & 1983 & Constructivo & Inserción por tiempo total decreciente; $O(n^2m)$ con aceleración \\
+Búsqueda tabú & 1990--1996 & Metaheurística & Vecindario de inserción con memoria tabú \\
+Recocido simulado & 1989 & Metaheurística & Aceptación probabilística de soluciones peores \\
+\textit{Iterated greedy} & 2007 & Metaheurística & Destrucción--construcción con reinserción tipo NEH \\
+\bottomrule
+\end{tabularx}
+\nota{Elaboración propia a partir de Johnson (1954), Palmer (1965), Campbell et al. (1970),
+Nawaz et al. (1983), Taillard (1990), Osman y Potts (1989), Nowicki y Smutnicki (1996) y
+Ruiz y Stützle (2007).}
+\end{table}
+
+% =============================================================================
+\subsection{Ejemplos numéricos}
+
+Los resultados de esta sección se calcularon con el código del Apéndice y se verificaron
+por enumeración exhaustiva de todas las permutaciones.
+
+\subsubsection{Dos máquinas: regla de Johnson}
+
+Considérense cinco trabajos (A, B, C, D, E) en dos máquinas con los tiempos de la
+Tabla~\ref{tab:johnson}. El conjunto $A=\{\text{A},\text{C},\text{D}\}$ (con
+$p_{j1}\le p_{j2}$) se ordena por $p_{j1}$ creciente: C, A, D; el conjunto
+$B=\{\text{B},\text{E}\}$ se ordena por $p_{j2}$ decreciente: E, B. La secuencia resultante
+es C--A--D--E--B, con $\Cmax=24$ (Figura~\ref{fig:johnson}). Como la suma de $p_{j1}$ es
+22 y el menor $p_{j2}$ es 2, la cota inferior es 24, por lo que la secuencia es óptima.
+
+\begin{table}[htbp]
+\caption{Tiempos de procesamiento del ejemplo de dos máquinas}\label{tab:johnson}
+\centering
+\begin{tabular}{@{}lccccc@{}}
+\toprule
+Trabajo & A & B & C & D & E \\
+\midrule
+$p_{j1}$ & 3 & 5 & 1 & 6 & 7 \\
+$p_{j2}$ & 6 & 2 & 2 & 6 & 5 \\
+\bottomrule
+\end{tabular}
+\nota{Elaboración propia.}
+\end{table}
+
+\begin{figure}[htbp]
+\caption{Diagrama de Gantt de la secuencia de Johnson}\label{fig:johnson}
+\centering
+\imagenopcional{fig/gantt_johnson.png}{0.85}{%
+Generar con \texttt{python3 generar\_figuras.py} (Python 3 + matplotlib); crea
+\texttt{fig/gantt\_johnson.png}.}
+\nota{Elaboración propia. La línea discontinua marca $\Cmax=24$.}
+\end{figure}
+
+\subsubsection{Cuatro máquinas: Palmer, CDS y NEH}
+
+Se consideran cinco trabajos en cuatro máquinas con los tiempos de la
+Tabla~\ref{tab:datos}.
+
+\begin{table}[htbp]
+\caption{Tiempos de procesamiento del ejemplo de cuatro máquinas}\label{tab:datos}
+\centering
+\begin{tabular}{@{}lccccc@{}}
+\toprule
+Trabajo & $M_1$ & $M_2$ & $M_3$ & $M_4$ & $T_j$ \\
+\midrule
+J1 & 5 & 9 & 8 & 10 & 32 \\
+J2 & 9 & 3 & 10 & 1 & 23 \\
+J3 & 9 & 4 & 5 & 8 & 26 \\
+J4 & 4 & 8 & 8 & 7 & 27 \\
+J5 & 1 & 5 & 6 & 8 & 20 \\
+\bottomrule
+\end{tabular}
+\nota{Elaboración propia.}
+\end{table}
+
+\paragraph{NEH.} El orden inicial por $T_j$ no creciente es J1, J4, J3, J2, J5. La
+Tabla~\ref{tab:neh} muestra el makespan de cada inserción; en el primer paso hay empate
+y se elige la primera posición. La secuencia final es J5--J4--J3--J1--J2 con $\Cmax=48$.
+
+\begin{table}[htbp]
+\caption{Evaluación de posiciones de inserción en NEH}\label{tab:neh}
+\centering
+\begin{tabular}{@{}clccccl@{}}
+\toprule
+Paso & Trabajo & Pos. 1 & Pos. 2 & Pos. 3 & Pos. 4 & Pos. 5 \\
+\midrule
+1 & J4 & \textbf{39} & 39 & --- & --- & --- \\
+2 & J3 & 48 & \textbf{45} & 47 & --- & --- \\
+3 & J2 & 55 & 54 & 54 & \textbf{46} & --- \\
+4 & J5 & \textbf{48} & 54 & 54 & 54 & 59 \\
+\bottomrule
+\end{tabular}
+\nota{Elaboración propia. Valores de $\Cmax$ de la secuencia parcial; en negrita, la posición
+elegida. Secuencias parciales elegidas: J4--J1, J4--J3--J1, J4--J3--J1--J2 y
+J5--J4--J3--J1--J2.}
+\end{table}
+
+La Tabla~\ref{tab:comp} muestra los tiempos de finalización de la secuencia NEH calculados
+con la recurrencia \eqref{eq:rec}.
+
+\begin{table}[htbp]
+\caption{Tiempos de finalización $C_{\pi(k),i}$ de la secuencia NEH}\label{tab:comp}
+\centering
+\begin{tabular}{@{}lcccc@{}}
+\toprule
+Trabajo & $M_1$ & $M_2$ & $M_3$ & $M_4$ \\
+\midrule
+J5 & 1 & 6 & 12 & 20 \\
+J4 & 5 & 14 & 22 & 29 \\
+J3 & 14 & 18 & 27 & 37 \\
+J1 & 19 & 28 & 36 & 47 \\
+J2 & 28 & 31 & 46 & \textbf{48} \\
+\bottomrule
+\end{tabular}
+\nota{Elaboración propia.}
+\end{table}
+
+\paragraph{Palmer y CDS.} Con $m=4$, los coeficientes de Palmer son $-3,-1,1,3$ y los
+índices resultan $s=(14,-17,-2,9,22)$ para J1,\ldots,J5, lo que da la secuencia
+J5--J1--J4--J3--J2 con $\Cmax=49$. En CDS, los tres problemas auxiliares ($k=1,2,3$)
+producen makespans de 50, 48 y 50; la mejor secuencia, J5--J4--J3--J1--J2, tiene
+$\Cmax=48$.
+
+\paragraph{Comparación.} La enumeración de las $5!=120$ permutaciones confirma que 48 es
+el óptimo. La cota inferior de la ecuación \eqref{eq:lb} es 46. La Tabla~\ref{tab:res}
+resume los resultados y la Figura~\ref{fig:gantt} compara el Gantt del orden original con
+el de NEH.
+
+\begin{table}[htbp]
+\caption{Resultados del ejemplo de cuatro máquinas}\label{tab:res}
+\centering
+\begin{tabular}{@{}llcc@{}}
+\toprule
+Método & Secuencia & $\Cmax$ & Desvío respecto al óptimo (\%) \\
+\midrule
+Orden original & J1--J2--J3--J4--J5 & 60 & 25.0 \\
+Palmer & J5--J1--J4--J3--J2 & 49 & 2.1 \\
+CDS & J5--J4--J3--J1--J2 & 48 & 0.0 \\
+NEH & J5--J4--J3--J1--J2 & 48 & 0.0 \\
+Óptimo (enumeración) & J5--J4--J3--J1--J2 & 48 & 0.0 \\
+\bottomrule
+\end{tabular}
+\nota{Elaboración propia. Cota inferior: 46.}
+\end{table}
+
+\begin{figure}[htbp]
+\caption{Diagramas de Gantt del orden original y de la secuencia NEH}\label{fig:gantt}
+\centering
+\imagenopcional{fig/gantt_comparacion.png}{0.9}{%
+Generar con \texttt{python3 generar\_figuras.py} (Python 3 + matplotlib); crea
+\texttt{fig/gantt\_comparacion.png}.}
+\nota{Elaboración propia. Cada barra es una operación; los espacios vacíos son tiempos
+ociosos de las máquinas.}
+\end{figure}
+
+% =============================================================================
+\subsection{Evaluación experimental}
+
+\subsubsection{Instancias de referencia}
+
+Taillard (1993) propuso 260 problemas generados aleatoriamente, de tamaño comparable al de
+problemas industriales, para flow shop permutacional, job shop y open shop con criterio
+$\Cmax$. Para el flow shop se dispone de 120 instancias (ta001--ta120), que Beasley (1990)
+distribuye a través de la OR-Library junto con el código de generación (ver
+\url{https://people.brunel.ac.uk/~mastjjb/jeb/orlib/flowshopinfo.html}). Las instancias se
+agrupan en doce clases de diez instancias cada una (Tabla~\ref{tab:taillard}), con tiempos
+de procesamiento enteros generados uniformemente en el rango 1--99.
+
+\begin{table}[htbp]
+\caption{Clases de instancias de Taillard para el flow shop permutacional}\label{tab:taillard}
+\centering
+\begin{tabular}{@{}lcccccccccccc@{}}
+\toprule
+$n$ & 20 & 20 & 20 & 50 & 50 & 50 & 100 & 100 & 100 & 200 & 200 & 500 \\
+$m$ & 5 & 10 & 20 & 5 & 10 & 20 & 5 & 10 & 20 & 10 & 20 & 20 \\
+\bottomrule
+\end{tabular}
+\nota{Elaboración propia a partir de Taillard (1993). Cada clase contiene diez instancias,
+para un total de 120.}
+\end{table}
+
+\subsubsection{Métricas}
+
+La calidad de un algoritmo se mide habitualmente con la desviación porcentual relativa
+\begin{equation}\label{eq:rpd}
+RPD = \frac{\Cmax^{\text{alg}} - \Cmax^{\text{ref}}}{\Cmax^{\text{ref}}}\times 100,
+\end{equation}
+donde $\Cmax^{\text{ref}}$ es la mejor solución conocida o una cota inferior, promediada
+sobre las instancias de cada clase (ARPD), junto con el tiempo de CPU. Fernandez-Viagas et al.
+(2017) realizaron una evaluación computacional de los métodos aproximados publicados para este
+problema, y Ruiz y Stützle (2007) validaron su algoritmo IG con análisis estadísticos sobre
+las instancias de Taillard. En cuanto a herramientas, los estudios revisados por Koç y Güner
+(2023) implementan sus algoritmos principalmente en C++ (53\,\%) y MATLAB (34\,\%).
+
+% =============================================================================
+\subsection{Discusión}
+
+La literatura revisada permite extraer varias ideas. Primero, existe una frontera nítida
+entre $m=2$, donde la regla de Johnson es óptima y eficiente, y $m\ge 3$, donde el problema es
+NP-difícil (Garey et al., 1976), lo que explica la abundancia de heurísticas. Segundo,
+NEH combina simplicidad y calidad: en el ejemplo de este informe alcanza el óptimo y, en la
+literatura, sigue siendo la base sobre la que se construyen variantes y metaheurísticas
+como IG (Fernandez-Viagas et al., 2017; Ruiz y Stützle, 2007). Tercero, el
+buen desempeño en un caso de estudio no garantiza superioridad general: en el estudio de
+Bari y Karande (2023), un algoritmo híbrido igualó a NEH en el caso real y solo lo superó
+en una parte de las instancias aleatorias.
+
+Entre las limitaciones del modelo estudiado se encuentran los supuestos deterministas, la
+ausencia de tiempos de preparación dependientes de la secuencia y el uso de un solo
+criterio. Las extensiones más relevantes incluyen tiempos de preparación (Ruiz y Stützle,
+2008), restricciones de bloqueo o \textit{no-wait} (Hejazi y Saghafian, 2005) y objetivos
+múltiples, que Koç y Güner (2023) identifican como una línea con vacíos por explorar. Por
+último, el ejemplo numérico de este informe es pequeño y su único fin es didáctico; las
+conclusiones sobre desempeño deben contrastarse con las instancias de Taillard.
+
+% =============================================================================
+\subsection{Conclusiones}
+
+El flow shop permutacional con objetivo $\Cmax$ modela de forma directa la programación
+de líneas de producción en serie. Para dos máquinas, la regla de Johnson (1954) entrega el
+óptimo en $O(n\log n)$; para tres o más máquinas el problema es NP-difícil (Garey et al.,
+1976), por lo que se recurre a heurísticas constructivas como Palmer, CDS y NEH, y a
+metaheurísticas como búsqueda tabú, recocido simulado e \textit{iterated greedy}. En el
+ejemplo de cuatro máquinas, NEH y CDS alcanzaron el óptimo de 48 unidades de tiempo, frente
+a 60 del orden original, lo que ilustra el impacto de una buena secuencia. Se recomienda
+implementar NEH con la aceleración de Taillard como punto de partida, extenderlo a un
+algoritmo \textit{iterated greedy} y evaluarlo con las instancias de Taillard y la métrica
+RPD.
+
+% =============================================================================
+% REFERENCIAS (APA 7, sangría francesa)
+% =============================================================================
+\newpage
+\section{Referencias}
+\begin{list}{}{\setlength{\leftmargin}{0.5in}\setlength{\itemindent}{-0.5in}%
+  \setlength{\itemsep}{0pt}\setlength{\parsep}{0pt}\setlength{\topsep}{0pt}}
+
+\item Bari, P., y Karande, P. (2023). Makespan minimization using hybrid heuristic and
+evolutionary genetic algorithm. \textit{International Journal of Industrial Engineering \&
+Production Research, 34}(2), 1--16. \url{https://doi.org/10.22068/ijiepr.34.2.8}
+
+\item Beasley, J. E. (1990). OR-Library: Distributing test problems by electronic mail.
+\textit{Journal of the Operational Research Society, 41}(11), 1069--1072.
+\url{https://doi.org/10.1057/jors.1990.166}
+
+\item Campbell, H. G., Dudek, R. A., y Smith, M. L. (1970). A heuristic algorithm for the n
+job, m machine sequencing problem. \textit{Management Science, 16}(10), B630--B637.
+\url{https://doi.org/10.1287/mnsc.16.10.B630}
+
+\item Dubois-Lacoste, J., Pagnozzi, F., y Stützle, T. (2017). An iterated greedy algorithm
+with optimization of partial solutions for the makespan permutation flowshop problem.
+\textit{Computers \& Operations Research, 81}, 160--166.
+\url{https://doi.org/10.1016/j.cor.2016.12.021}
+
+\item Fernandez-Viagas, V., Ruiz, R., y Framinan, J. M. (2017). A new vision of approximate
+methods for the permutation flowshop to minimise makespan: State-of-the-art and computational
+evaluation. \textit{European Journal of Operational Research, 257}(3), 707--721.
+\url{https://doi.org/10.1016/j.ejor.2016.09.055}
+
+\item Framiñán, J. M., Gupta, J. N. D., y Leisten, R. (2004). A review and classification of
+heuristics for permutation flow-shop scheduling with makespan objective. \textit{Journal of the
+Operational Research Society, 55}(12), 1243--1255.
+\url{https://doi.org/10.1057/palgrave.jors.2601784}
+
+\item Framiñán, J. M., Leisten, R., y Rajendran, C. (2003). Different initial sequences for the
+heuristic of Nawaz, Enscore and Ham to minimize makespan, idletime or flowtime in the static
+permutation flowshop sequencing problem. \textit{International Journal of Production Research,
+41}(1), 121--148. \url{https://doi.org/10.1080/00207540210161650}
+
+\item Garey, M. R., Johnson, D. S., y Sethi, R. (1976). The complexity of flowshop and jobshop
+scheduling. \textit{Mathematics of Operations Research, 1}(2), 117--129.
+\url{https://doi.org/10.1287/moor.1.2.117}
+
+\item Gonzalez, T., y Sahni, S. (1978). Flowshop and jobshop schedules: Complexity and
+approximation. \textit{Operations Research, 26}(1), 36--52.
+\url{https://doi.org/10.1287/opre.26.1.36}
+
+\item Graham, R. L., Lawler, E. L., Lenstra, J. K., y Rinnooy Kan, A. H. G. (1979).
+Optimization and approximation in deterministic sequencing and scheduling: A survey.
+\textit{Annals of Discrete Mathematics, 5}, 287--326.
+\url{https://doi.org/10.1016/S0167-5060(08)70356-X}
+
+\item Hejazi, S. R., y Saghafian, S. (2005). Flowshop-scheduling problems with makespan
+criterion: A review. \textit{International Journal of Production Research, 43}(14),
+2895--2929.
+
+\item Johnson, S. M. (1954). Optimal two- and three-stage production schedules with setup
+times included. \textit{Naval Research Logistics Quarterly, 1}(1), 61--68.
+\url{https://doi.org/10.1002/nav.3800010110}
+
+\item Kalczynski, P. J., y Kamburowski, J. (2007). On the NEH heuristic for minimizing the
+makespan in permutation flow shops. \textit{Omega, 35}(1), 53--60.
+
+\item Koç, H. V., y Güner, E. (2023). A systematic literature review and an integrated
+framework of the flowshop scheduling problem. \textit{Verimlilik Dergisi, 57}(3), 577--594.
+\url{https://doi.org/10.51551/verimlilik.1207259}
+
+\item Nawaz, M., Enscore, E. E., Jr., y Ham, I. (1983). A heuristic algorithm for the
+m-machine, n-job flow-shop sequencing problem. \textit{Omega, 11}(1), 91--95.
+\url{https://doi.org/10.1016/0305-0483(83)90088-9}
+
+\item Nowicki, E., y Smutnicki, C. (1996). A fast tabu search algorithm for the permutation
+flow-shop problem. \textit{European Journal of Operational Research, 91}(1), 160--175.
+\url{https://doi.org/10.1016/0377-2217(95)00037-2}
+
+\item Osman, I. H., y Potts, C. N. (1989). Simulated annealing for permutation flow-shop
+scheduling. \textit{Omega, 17}(6), 551--557.
+
+\item Palmer, D. S. (1965). Sequencing jobs through a multi-stage process in the minimum total
+time---A quick method of obtaining a near optimum. \textit{Operational Research Quarterly,
+16}(1), 101--107.
+
+\item Pinedo, M. L. (2016). \textit{Scheduling: Theory, algorithms, and systems} (5.ª ed.).
+Springer. \url{https://doi.org/10.1007/978-3-319-26580-3}
+
+\item Ruiz, R., y Maroto, C. (2005). A comprehensive review and evaluation of permutation
+flowshop heuristics. \textit{European Journal of Operational Research, 165}(2), 479--494.
+\url{https://doi.org/10.1016/j.ejor.2004.04.017}
+
+\item Ruiz, R., y Stützle, T. (2007). A simple and effective iterated greedy algorithm for the
+permutation flowshop scheduling problem. \textit{European Journal of Operational Research,
+177}(3), 2033--2049.
+
+\item Ruiz, R., y Stützle, T. (2008). An iterated greedy heuristic for the sequence dependent
+setup times flowshop problem with makespan and weighted tardiness objectives.
+\textit{European Journal of Operational Research, 187}(3), 1143--1159.
+\url{https://doi.org/10.1016/j.ejor.2006.07.029}
+
+\item Taillard, E. (1990). Some efficient heuristic methods for the flow shop sequencing
+problem. \textit{European Journal of Operational Research, 47}(1), 65--74.
+\url{https://doi.org/10.1016/0377-2217(90)90090-X}
+
+\item Taillard, E. (1993). Benchmarks for basic scheduling problems. \textit{European Journal
+of Operational Research, 64}(2), 278--285.
+\url{https://doi.org/10.1016/0377-2217(93)90182-M}
+
+\item Wikipedia. (s. f.). \textit{Flow-shop scheduling}. Recuperado el 18 de noviembre de
+2026, de \url{https://en.wikipedia.org/wiki/Flow-shop_scheduling}
+
+\end{list}
+
+% =============================================================================
+% APÉNDICE
+% =============================================================================
+\newpage
+\section{Apéndice}
+\subsection{Código en Python del ejemplo numérico}
+
+\begin{singlespace}
+\begin{lstlisting}
+def makespan(seq, p):
+    """Cmax de una secuencia: recurrencia C[k][i]."""
+    m = len(p[0])
+    c = [0] * m
+    for j in seq:
+        c[0] += p[j][0]
+        for i in range(1, m):
+            c[i] = max(c[i], c[i - 1]) + p[j][i]
+    return c[-1]
+
+def johnson(a, b):
+    """Regla de Johnson para dos maquinas (a = p1, b = p2)."""
+    s1 = sorted([j for j in range(len(a)) if a[j] <= b[j]], key=lambda j: a[j])
+    s2 = sorted([j for j in range(len(a)) if a[j] > b[j]], key=lambda j: -b[j])
+    return s1 + s2
+
+def neh(p):
+    """Heuristica NEH (empates: primera posicion)."""
+    orden = sorted(range(len(p)), key=lambda j: -sum(p[j]))
+    seq = [orden[0]]
+    for j in orden[1:]:
+        mejor = None
+        for pos in range(len(seq) + 1):
+            cand = seq[:pos] + [j] + seq[pos:]
+            c = makespan(cand, p)
+            if mejor is None or c < mejor[0]:
+                mejor = (c, cand)
+        seq = mejor[1]
+    return seq
+
+P = [[5, 9, 8, 10], [9, 3, 10, 1], [9, 4, 5, 8], [4, 8, 8, 7], [1, 5, 6, 8]]
+s = neh(P)
+print([j + 1 for j in s], makespan(s, P))   # [5, 4, 3, 1, 2] 48
+\end{lstlisting}
+\end{singlespace}
+
+\noindent El script completo \texttt{generar\_figuras.py} (que además implementa Palmer,
+CDS, la cota inferior y la enumeración exhaustiva, y genera las figuras) acompaña a este
+documento.
+
+\end{document}
