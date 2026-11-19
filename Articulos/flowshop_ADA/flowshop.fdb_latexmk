@@ -1,6 +1,6 @@
 # Fdb version 4
-["pdflatex"] 1795042229.84738 "/home/camiloasd/Documentos/VS_ALT/LaTeX_Proyects(?)/Articulos/flowshop_ADA/flowshop.tex" "flowshop.pdf" "flowshop" 1795042231.78092 0
-  "/home/camiloasd/Documentos/VS_ALT/LaTeX_Proyects(?)/Articulos/flowshop_ADA/flowshop.tex" 1795042227.71263 47193 b9c669024248f52742bb88039387465f ""
+["pdflatex"] 1795058431.75258 "/home/camiloasd/Documentos/VS_ALT/LaTeX_Proyects(?)/Articulos/flowshop_ADA/flowshop.tex" "flowshop.pdf" "flowshop" 1795058434.16098 2
+  "/home/camiloasd/Documentos/VS_ALT/LaTeX_Proyects(?)/Articulos/flowshop_ADA/flowshop.tex" 1795058428.17897 47209 c1e7728a3622ae0cd6b1aacf6c8e699f ""
   "/usr/share/texlive/texmf-dist/fonts/enc/dvips/base/8r.enc" 1777593600 4850 80dc9bab7f31fb78a000ccfed0e27cab ""
   "/usr/share/texlive/texmf-dist/fonts/enc/dvips/cm-super/cm-super-t1.enc" 1136849721 2971 def0b6c1f0b107b3b936def894055589 ""
   "/usr/share/texlive/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
@@ -210,15 +210,15 @@
   "/usr/share/texlive/texmf-dist/web2c/texmf.cnf" 1777593600 43785 66587115382950aca692b5f6e3c2fb74 ""
   "/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map" 1784908296 4753617 4b8ca06b2ffedff4010a3c2ff6684aaa ""
   "/var/lib/texmf/web2c/pdftex/pdflatex.fmt" 1789762487 3527793 08bee20c0708858e45b547a337dc8326 ""
-  "fig/espacio_busqueda.png" 1795042198.11208 103597 5f65adcbd0336bfc98803b99b7da4696 ""
-  "fig/gantt_comparacion.png" 1795042197.60708 75031 41cf3cd5aa1fd9b5f63d8c611c83668e ""
-  "fig/gantt_johnson.png" 1795042197.17807 37027 7ab2ac445f89d5705eab6f96cfc83c90 ""
-  "flowshop.aux" 1795042231.6186 9706 0bf0dc006972fa54a746fd4b83944d18 "pdflatex"
-  "flowshop.lof" 1795042231.6276 826 f0ce29e1f5b926f21593abe0edbc3409 "pdflatex"
-  "flowshop.lot" 1795042231.6276 1102 96b27f9c1b44528484852f38d5673a07 "pdflatex"
-  "flowshop.out" 1795042231.6266 2225 5c25df8333ada5ce594159dd42c2c906 "pdflatex"
-  "flowshop.tex" 1795042227.71263 47193 b9c669024248f52742bb88039387465f ""
-  "flowshop.toc" 1795042231.6276 2510 6ceacca89939e5ae5ff70467838c6f97 "pdflatex"
+  "fig/espacio_busqueda.png" 1795043225.88843 88254 3f930580e2a3464b438311264c354618 ""
+  "fig/gantt_comparacion.png" 1795043225.66443 76495 e5a8824850be164ae596853d1652d38f ""
+  "fig/gantt_johnson.png" 1795043225.35442 29520 43181aae1498602ec3153d12581bc015 ""
+  "flowshop.aux" 1795058434.03549 9706 0bf0dc006972fa54a746fd4b83944d18 "pdflatex"
+  "flowshop.lof" 1795058434.0414 826 f0ce29e1f5b926f21593abe0edbc3409 "pdflatex"
+  "flowshop.lot" 1795058434.0414 1102 96b27f9c1b44528484852f38d5673a07 "pdflatex"
+  "flowshop.out" 1795058434.03949 2225 5c25df8333ada5ce594159dd42c2c906 "pdflatex"
+  "flowshop.tex" 1795058428.17897 47209 c1e7728a3622ae0cd6b1aacf6c8e699f ""
+  "flowshop.toc" 1795058434.0414 2510 6ceacca89939e5ae5ff70467838c6f97 "pdflatex"
   (generated)
   "flowshop.aux"
   "flowshop.lof"

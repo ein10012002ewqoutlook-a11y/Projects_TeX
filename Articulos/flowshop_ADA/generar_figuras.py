@@ -1,219 +1,240 @@
-"""Genera las figuras del informe flowshop.tex y verifica los ejemplos numéricos.
+#!/usr/bin/env python3
+"""
+generar_figuras.py
+Genera las figuras del informe flowshop.tex y verifica los calculos del
+ejemplo numerico (Johnson, Palmer, CDS, NEH y busqueda exhaustiva).
 
 Uso:
+    pip install matplotlib
     python3 generar_figuras.py
 
-Crea los PNG en la carpeta fig/ relativa a este script.
+Crea la carpeta fig/ junto al script con:
+    fig/gantt_johnson.png
+    fig/gantt_comparacion.png
+    fig/espacio_busqueda.png
 """
-
-from itertools import permutations
-from math import factorial
-from pathlib import Path
+import itertools
+import math
+import os
 
 import matplotlib
+
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 
+OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "fig")
+os.makedirs(OUT, exist_ok=True)
 
-BASE = Path(__file__).resolve().parent
-FIG_DIR = BASE / "fig"
-FIG_DIR.mkdir(exist_ok=True)
+COLORES = ["#8ecae6", "#ffb703", "#b7e4c7", "#f4a6a6", "#cdb4db",
+           "#f1e3a1", "#a8dadc", "#e5b8a0"]
+
+# ---------------------------------------------------------------------------
+# Datos del ejemplo (4 maquinas, 5 trabajos): P[j][i] = tiempo del trabajo j
+# en la maquina i
+# ---------------------------------------------------------------------------
+P = [
+    [5, 9, 8, 10],   # J1
+    [9, 3, 10, 1],   # J2
+    [9, 4, 5, 8],    # J3
+    [4, 8, 8, 7],    # J4
+    [1, 5, 6, 8],    # J5
+]
+# Ejemplo de 2 maquinas para la regla de Johnson
+J2 = [(3, 6), (5, 2), (1, 2), (6, 6), (7, 5)]   # A, B, C, D, E
+NOM_J2 = ["A", "B", "C", "D", "E"]
 
 
-def makespan(seq, p):
-    """Calcula Cmax para una secuencia mediante la recurrencia de flow shop."""
+def matriz_c(seq, p):
+    """Tiempos de finalizacion C[k][i] del k-esimo trabajo de la secuencia."""
     m = len(p[0])
-    c = [0] * m
-    for j in seq:
-        c[0] += p[j][0]
-        for i in range(1, m):
-            c[i] = max(c[i], c[i - 1]) + p[j][i]
-    return c[-1]
-
-
-def completion_table(seq, p):
-    n = len(seq)
-    m = len(p[0])
-    table = [[0] * m for _ in range(n)]
+    c = [[0] * m for _ in seq]
     for k, j in enumerate(seq):
         for i in range(m):
-            previous_job = table[k - 1][i] if k else 0
-            previous_machine = table[k][i - 1] if i else 0
-            table[k][i] = max(previous_job, previous_machine) + p[j][i]
-    return table
+            previo_trabajo = c[k - 1][i] if k > 0 else 0
+            previo_maquina = c[k][i - 1] if i > 0 else 0
+            c[k][i] = max(previo_trabajo, previo_maquina) + p[j][i]
+    return c
+
+
+def cmax(seq, p):
+    return matriz_c(seq, p)[-1][-1] if seq else 0
 
 
 def johnson(a, b):
-    """Regla de Johnson para dos máquinas."""
-    first = sorted((j for j in range(len(a)) if a[j] <= b[j]), key=lambda j: a[j])
-    second = sorted((j for j in range(len(a)) if a[j] > b[j]), key=lambda j: -b[j])
-    return first + second
+    s1 = sorted([j for j in range(len(a)) if a[j] <= b[j]], key=lambda j: a[j])
+    s2 = sorted([j for j in range(len(a)) if a[j] > b[j]], key=lambda j: -b[j])
+    return s1 + s2
 
 
 def palmer(p):
     m = len(p[0])
-    weights = [2 * i - (m + 1) for i in range(1, m + 1)]
-    scores = [sum(weights[i] * p[j][i] for i in range(m)) for j in range(len(p))]
-    return sorted(range(len(p)), key=lambda j: -scores[j]), scores
+    pend = [sum((2 * (i + 1) - m - 1) * p[j][i] for i in range(m)) for j in range(len(p))]
+    return sorted(range(len(p)), key=lambda j: -pend[j]), pend
 
 
 def cds(p):
-    """Devuelve la mejor secuencia de CDS y su makespan."""
     m = len(p[0])
-    best = None
+    mejor = None
+    detalle = []
     for k in range(1, m):
-        a = [sum(row[:k]) for row in p]
-        b = [sum(row[k:]) for row in p]
-        seq = johnson(a, b)
-        cmax = makespan(seq, p)
-        if best is None or cmax < best[0]:
-            best = (cmax, seq)
-    return best
+        a = [sum(p[j][:k]) for j in range(len(p))]
+        b = [sum(p[j][m - k:]) for j in range(len(p))]
+        s = johnson(a, b)
+        c = cmax(s, p)
+        detalle.append((k, s, c))
+        if mejor is None or c < mejor[1]:
+            mejor = (s, c)
+    return mejor[0], detalle
 
 
-def neh(p):
-    order = sorted(range(len(p)), key=lambda j: -sum(p[j]))
-    seq = [order[0]]
-    for j in order[1:]:
-        candidates = [(makespan(seq[:pos] + [j] + seq[pos:], p), pos)
-                      for pos in range(len(seq) + 1)]
-        best_cmax = min(c for c, _ in candidates)
-        pos = next(pos for c, pos in candidates if c == best_cmax)
-        seq = seq[:pos] + [j] + seq[pos:]
+def neh(p, log=None):
+    n = len(p)
+    orden = sorted(range(n), key=lambda j: -sum(p[j]))
+    seq = [orden[0]]
+    if log is not None:
+        log.append(("orden inicial", orden, None))
+    for j in orden[1:]:
+        evals = []
+        mejor = None
+        for pos in range(len(seq) + 1):
+            cand = seq[:pos] + [j] + seq[pos:]
+            c = cmax(cand, p)
+            evals.append((pos + 1, cand, c))
+            if mejor is None or c < mejor[0]:   # empate: primera posicion
+                mejor = (c, cand)
+        seq = mejor[1]
+        if log is not None:
+            log.append((j, evals, mejor[0]))
     return seq
 
 
-def lower_bound(p):
-    n = len(p)
-    m = len(p[0])
-    bounds = []
+def optimo(p):
+    mejor = None
+    for perm in itertools.permutations(range(len(p))):
+        c = cmax(list(perm), p)
+        if mejor is None or c < mejor[0]:
+            mejor = (c, list(perm))
+    return mejor
+
+
+def cota_inferior(p):
+    n, m = len(p), len(p[0])
+    lb = 0
     for k in range(m):
-        before = min(sum(row[i] for i in range(k)) for row in p)
-        after = min(sum(row[i] for i in range(k + 1, m)) for row in p)
-        bounds.append(before + sum(row[k] for row in p) + after)
-    return max(bounds)
+        cab = min(sum(p[j][:k]) for j in range(n))
+        cola = min(sum(p[j][k + 1:]) for j in range(n))
+        lb = max(lb, cab + sum(p[j][k] for j in range(n)) + cola)
+    return lb
 
 
-def gantt(seq, p, title, filename):
-    table = completion_table(seq, p)
+def gantt(ax, seq, p, nombres, titulo):
+    c = matriz_c(seq, p)
     m = len(p[0])
-    colors = plt.cm.tab20.colors
-    fig, ax = plt.subplots(figsize=(9.5, 3.8))
     for k, j in enumerate(seq):
-        start_previous = table[k][0] - p[j][0]
         for i in range(m):
-            start = table[k][i] - p[j][i]
-            ax.barh(i, p[j][i], left=start, height=0.65,
-                    color=colors[j % len(colors)], edgecolor="black")
-            ax.text(start + p[j][i] / 2, i, f"J{j + 1}",
-                    ha="center", va="center", fontsize=8)
-    ax.set_yticks(range(m), [f"M{i + 1}" for i in range(m)])
+            fin = c[k][i]
+            ini = fin - p[j][i]
+            ax.barh(i, p[j][i], left=ini, height=0.62, color=COLORES[j % len(COLORES)],
+                    edgecolor="black", linewidth=0.6)
+            etiqueta = nombres[j] if p[j][i] >= 2 else nombres[j][-1]
+            ax.text(ini + p[j][i] / 2, i, etiqueta, ha="center", va="center",
+                    fontsize=8 if p[j][i] >= 2 else 6)
+    cm = c[-1][-1]
+    ax.axvline(cm, linestyle="--", color="black", linewidth=0.8)
+    ax.set_yticks(range(m))
+    ax.set_yticklabels([f"$M_{i + 1}$" for i in range(m)])
+    ax.invert_yaxis()
+    ax.set_xlim(0, cm * 1.04)
     ax.set_xlabel("Tiempo")
-    ax.set_title(title)
-    ax.invert_yaxis()
-    ax.grid(axis="x", linestyle="--", alpha=0.35)
-    fig.tight_layout()
-    fig.savefig(FIG_DIR / filename, dpi=180, bbox_inches="tight")
-    plt.close(fig)
+    ax.set_title(f"{titulo}  ($C_{{max}}={cm}$)", fontsize=10)
+    ax.spines[["top", "right"]].set_visible(False)
 
 
-# Ejemplo de dos máquinas
-johnson_a = [3, 5, 1, 6, 7]
-johnson_b = [6, 2, 2, 6, 5]
-johnson_seq = johnson(johnson_a, johnson_b)
-johnson_p = [[a, b] for a, b in zip(johnson_a, johnson_b)]
-print("Johnson:", [chr(65 + j) for j in johnson_seq], "Cmax =",
-      makespan(johnson_seq, johnson_p))
+# ---------------------------------------------------------------------------
+# Calculos y verificacion
+# ---------------------------------------------------------------------------
+nombres = [f"J{j + 1}" for j in range(len(P))]
+etq = lambda s: " - ".join(nombres[j] for j in s)
 
-# Diagrama de Gantt de Johnson
-table = completion_table(johnson_seq, johnson_p)
-fig, ax = plt.subplots(figsize=(9.5, 3.2))
-colors = plt.cm.tab20.colors
-for k, j in enumerate(johnson_seq):
-    for i in range(2):
-        start = table[k][i] - johnson_p[j][i]
-        ax.barh(i, johnson_p[j][i], left=start, height=0.65,
-                color=colors[j % len(colors)], edgecolor="black")
-        ax.text(start + johnson_p[j][i] / 2, i, chr(65 + j),
-                ha="center", va="center", fontsize=9)
-ax.set_yticks([0, 1], ["M1", "M2"])
-ax.set_xlabel("Tiempo")
-ax.set_title("Secuencia óptima de Johnson: C--A--D--E--B")
-ax.axvline(24, color="red", linestyle="--", label="Cmax = 24")
-ax.legend(loc="lower right")
-ax.invert_yaxis()
-ax.grid(axis="x", linestyle="--", alpha=0.35)
+print("=== Ejemplo 2 maquinas (Johnson) ===")
+a = [x[0] for x in J2]
+b = [x[1] for x in J2]
+sj = johnson(a, b)
+print("Johnson:", " - ".join(NOM_J2[j] for j in sj), "Cmax =", cmax(sj, [list(x) for x in J2]))
+print("Optimo exhaustivo:", optimo([list(x) for x in J2])[0],
+      "| LB:", cota_inferior([list(x) for x in J2]))
+
+print("\n=== Ejemplo 4 maquinas, 5 trabajos ===")
+print("Totales T_j:", [sum(r) for r in P])
+print("Cota inferior:", cota_inferior(P))
+orig = list(range(len(P)))
+print("Orden original:", etq(orig), "Cmax =", cmax(orig, P))
+sp, pend = palmer(P)
+print("Palmer: pendientes", pend, "->", etq(sp), "Cmax =", cmax(sp, P))
+sc, det = cds(P)
+for k, s, c in det:
+    print(f"  CDS k={k}: {etq(s)} Cmax = {c}")
+print("CDS:", etq(sc), "Cmax =", cmax(sc, P))
+log = []
+sn = neh(P, log)
+for entrada in log:
+    if entrada[0] == "orden inicial":
+        print("NEH orden inicial:", etq(entrada[1]))
+    else:
+        j, evals, c = entrada
+        print(f"  insertar {nombres[j]}:")
+        for pos, cand, cc in evals:
+            print(f"     pos {pos}: {etq(cand)}  Cmax = {cc}")
+print("NEH:", etq(sn), "Cmax =", cmax(sn, P))
+copt, sopt = optimo(P)
+print("Optimo exhaustivo:", etq(sopt), "Cmax =", copt)
+print("Matriz C (NEH):")
+for k, j in enumerate(sn):
+    print("  ", nombres[j], matriz_c(sn, P)[k])
+
+# ---------------------------------------------------------------------------
+# Figura 1: Gantt Johnson (2 maquinas)
+# ---------------------------------------------------------------------------
+pj = [list(x) for x in J2]
+fig, ax = plt.subplots(figsize=(7.2, 2.4))
+gantt(ax, sj, pj, NOM_J2, "Secuencia de Johnson")
 fig.tight_layout()
-fig.savefig(FIG_DIR / "gantt_johnson.png", dpi=180, bbox_inches="tight")
+fig.savefig(os.path.join(OUT, "gantt_johnson.png"), dpi=200)
 plt.close(fig)
 
-# Ejemplo de cuatro máquinas
-P = [[5, 9, 8, 10], [9, 3, 10, 1], [9, 4, 5, 8],
-     [4, 8, 8, 7], [1, 5, 6, 8]]
-palmer_seq, palmer_scores = palmer(P)
-cds_cmax, cds_seq = cds(P)
-neh_seq = neh(P)
-original = list(range(len(P)))
-print("Palmer:", [f"J{j + 1}" for j in palmer_seq], palmer_scores,
-      "Cmax =", makespan(palmer_seq, P))
-print("CDS:", [f"J{j + 1}" for j in cds_seq], "Cmax =", cds_cmax)
-print("NEH:", [f"J{j + 1}" for j in neh_seq], "Cmax =", makespan(neh_seq, P))
-print("Original: Cmax =", makespan(original, P))
-print("Cota inferior =", lower_bound(P))
-
-best_cmax = None
-best_seq = None
-for seq in permutations(range(len(P))):
-    cmax = makespan(seq, P)
-    if best_cmax is None or cmax < best_cmax:
-        best_cmax = cmax
-        best_seq = seq
-print("Enumeración:", [f"J{j + 1}" for j in best_seq],
-      "Cmax =", best_cmax, "permits =", factorial(len(P)))
-
-# Figuras de Gantt y espacio de búsqueda
-gantt(original, P, "Orden original: J1--J2--J3--J4--J5",
-      "gantt_comparacion.png")
-# Comparación: sustituye temporalmente con dos paneles para reflejar ambos órdenes
-# Se rehace la figura como dos paneles, igual que en el documento.
-fig, axes = plt.subplots(2, 1, figsize=(9.5, 7), sharex=True)
-for ax, seq, title in zip(axes,
-                          [original, neh_seq],
-                          ["Orden original", "Secuencia NEH: J5--J4--J3--J1--J2"]):
-    table = completion_table(seq, P)
-    for k, j in enumerate(seq):
-        for i in range(4):
-            start = table[k][i] - P[j][i]
-            ax.barh(i, P[j][i], left=start, height=0.65,
-                    color=colors[j % len(colors)], edgecolor="black")
-            ax.text(start + P[j][i] / 2, i, f"J{j + 1}",
-                    ha="center", va="center", fontsize=8)
-    ax.set_yticks(range(4), [f"M{i + 1}" for i in range(1, 5)])
-    ax.set_title(title)
-    ax.invert_yaxis()
-    ax.grid(axis="x", linestyle="--", alpha=0.35)
-axes[-1].set_xlabel("Tiempo")
+# ---------------------------------------------------------------------------
+# Figura 2: Gantt comparativo (orden original vs NEH)
+# ---------------------------------------------------------------------------
+fig, axs = plt.subplots(2, 1, figsize=(7.2, 5.0), sharex=True)
+gantt(axs[0], orig, P, nombres, "Orden original " + etq(orig))
+gantt(axs[1], sn, P, nombres, "Secuencia NEH " + etq(sn))
+xmax = max(cmax(orig, P), cmax(sn, P)) * 1.04
+for ax in axs:
+    ax.set_xlim(0, xmax)
+axs[0].set_xlabel("")
 fig.tight_layout()
-fig.savefig(FIG_DIR / "gantt_comparacion.png", dpi=180, bbox_inches="tight")
+fig.savefig(os.path.join(OUT, "gantt_comparacion.png"), dpi=200)
 plt.close(fig)
 
-n_values = list(range(2, 21))
-log_permutations = [factorial(n).bit_length() for n in n_values]
-# Usa log10 directamente sin depender de la precisión factorial.
-import math
-log_permutations = [math.log10(math.factorial(n)) for n in n_values]
-fig, ax = plt.subplots(figsize=(8.5, 5))
-ax.plot(n_values, log_permutations, marker="o", linewidth=1.8,
-        label="Permutacional: $n!$")
-ax.plot(n_values, [n * math.log10(n) for n in n_values], linestyle="--",
-        label="Caso general: $(n!)^m$ (ejemplo $m=n$)")
-ax.set_xlabel("Número de trabajos $n$")
-ax.set_ylabel("Logaritmo base 10 del número de secuencias")
-ax.set_title("Crecimiento del espacio de búsqueda")
-ax.grid(True, linestyle="--", alpha=0.35)
-ax.legend()
+# ---------------------------------------------------------------------------
+# Figura 3: tamano del espacio de busqueda
+# ---------------------------------------------------------------------------
+ns = list(range(2, 21))
+fig, ax = plt.subplots(figsize=(6.4, 3.6))
+ax.plot(ns, [math.log10(math.factorial(n)) for n in ns], marker="o", ms=3,
+        label=r"Permutacional: $n!$")
+ax.plot(ns, [5 * math.log10(math.factorial(n)) for n in ns], marker="s", ms=3,
+        label=r"General, $m=5$: $(n!)^5$")
+ax.plot(ns, [10 * math.log10(math.factorial(n)) for n in ns], marker="^", ms=3,
+        label=r"General, $m=10$: $(n!)^{10}$")
+ax.set_xlabel("Numero de trabajos $n$")
+ax.set_ylabel(r"$\log_{10}$ (numero de secuencias)")
+ax.set_xticks(range(2, 21, 2))
+ax.grid(alpha=0.3)
+ax.legend(frameon=False, fontsize=9)
+ax.spines[["top", "right"]].set_visible(False)
 fig.tight_layout()
-fig.savefig(FIG_DIR / "espacio_busqueda.png", dpi=180, bbox_inches="tight")
+fig.savefig(os.path.join(OUT, "espacio_busqueda.png"), dpi=200)
 plt.close(fig)
 
-print("Figuras creadas en:", FIG_DIR)
+print("\nFiguras guardadas en", OUT)
